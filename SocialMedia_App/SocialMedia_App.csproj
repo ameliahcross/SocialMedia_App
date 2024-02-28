@@ -16,4 +16,8 @@
     <ProjectReference Include="..\SocialMedia_App.Core.Persistence\SocialMedia_App.Infrastructure.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\User\" />
+  </ItemGroup>
+
 </Project>

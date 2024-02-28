@@ -1,6 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
-using SocialMedia_App.Core.Domain.Entities;
 
 namespace SocialMedia_App.Core.Application.ViewModels.User
 {
@@ -29,8 +28,16 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
         [Required(ErrorMessage = "Debe ingresar el apellido")]
         public string LastName { get; set; }
 
-        [Required(ErrorMessage = "Debe asignar un rol al usuario")]
-        public UserRole Role { get; set; }
+        [Required(ErrorMessage = "Debe ingresar un teléfono")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"^(\+?1-)?(809|829|849)-\d{3}-\d{4}$", 
+            ErrorMessage = "Debe ingresar un número de teléfono válido de República Dominicana")]
+        public string Phone { get; set; }
+
+        [Required(ErrorMessage = "Debe añadir una imagen")]
+        public string ImageUrl { get; set; }
+
+        public IFormFile File { get; set; }
     }
 }
 

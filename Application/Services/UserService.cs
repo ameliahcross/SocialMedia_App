@@ -1,6 +1,6 @@
 ﻿using SocialMedia_App.Core.Application.Interfaces.Repositories;
 using SocialMedia_App.Core.Application.Interfaces.Services;
-using SocialMedia_App.Core.Application.ViewModels.User;
+using SocialMedia_App.Core.Application.ViewModels.Login;
 using SocialMedia_App.Core.Application.ViewModels.User;
 using SocialMedia_App.Core.Domain.Entities;
 
@@ -27,7 +27,7 @@ namespace SocialMedia_App.Core.Application.Services
                 Email = user.Email,
                 Name = user.Name,
                 LastName = user.LastName,
-                Role = user.Role,
+                //Role = user.Role,
 
             }).ToList();
         }
@@ -43,7 +43,7 @@ namespace SocialMedia_App.Core.Application.Services
             userViewModel.Email = user.Email;
             userViewModel.Name = user.Name;
             userViewModel.LastName = user.LastName;
-            userViewModel.Role = user.Role;
+            //userViewModel.Role = user.Role;
 
             return userViewModel;
         }
@@ -57,7 +57,7 @@ namespace SocialMedia_App.Core.Application.Services
             user.Email = userToSave.Email;
             user.Name = userToSave.Name;
             user.LastName = userToSave.LastName;
-            user.Role = userToSave.Role;
+            //user.Role = userToSave.Role;
 
             await _repository.UpdateAsync(user);
         }
@@ -73,7 +73,7 @@ namespace SocialMedia_App.Core.Application.Services
                 Email = userToCreate.Email,
                 Name = userToCreate.Name,
                 LastName = userToCreate.LastName,
-                Role = userToCreate.Role
+                //Role = userToCreate.Role
 
             };
 
@@ -101,7 +101,7 @@ namespace SocialMedia_App.Core.Application.Services
             userVm.Email = user.Email;
             userVm.Username = user.Username;
             userVm.Password = user.Password;
-            userVm.Role = user.Role;
+            //userVm.Role = user.Role;
 
             return userVm;
         }

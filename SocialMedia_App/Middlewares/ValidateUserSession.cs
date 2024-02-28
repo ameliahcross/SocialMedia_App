@@ -29,11 +29,11 @@ namespace SocialMedia_App.Middlewares
 			// Con llamar aun méthod de esta clase "userViewModel" sabré si hay un usuario loggueado o no.
 		}
 
-        public UserRole? GetUserRole()
-        {
-            UserViewModel userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
-            return userViewModel?.Role;
-        }
+        //public UserRole? GetUserRole()
+        //{
+        //    UserViewModel userViewModel = _httpContextAccessor.HttpContext.Session.Get<UserViewModel>("user");
+        //    return userViewModel?.Role;
+        //}
     }
 }
 

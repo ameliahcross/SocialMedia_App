@@ -1,22 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SocialMedia_App.Core.Application.ViewModels.User;
 using SocialMedia_App.Models;
 using System.Diagnostics;
 
 namespace SocialMedia_App.Controllers
 {
-    public class HomeController : Controller
+    public class LoginController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<LoginController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public LoginController(ILogger<LoginController> logger)
         {
             _logger = logger;
         }
 
         public IActionResult Index()
         {
-            return View(new SaveUserViewModel());
+            return View();
         }
 
         public IActionResult Privacy()

@@ -3,12 +3,6 @@ using SocialMedia_App.Core.Domain.Common;
 
 namespace SocialMedia_App.Core.Domain.Entities
 {
-    public enum UserRole
-    {
-        Administrador,
-        Asistente
-    }
-
     public class User : BaseEntity
 	{
         public string Username { get; set; }
@@ -21,7 +15,7 @@ namespace SocialMedia_App.Core.Domain.Entities
 
         public string LastName { get; set; }
 
-        public UserRole Role { get; set; }
+
     }
 }
 

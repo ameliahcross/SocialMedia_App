@@ -1,0 +1,67 @@
+﻿@model SocialMedia_App.Core.Application.ViewModels.User.SaveUserViewModel
+
+@{
+    ViewData["Title"] = "Registro";
+}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <div class="card p-3 bg-primary bg-opacity-10 mb-5">
+                <div class="card-header bg-opacity-50 bg-primary">
+                    <h3 class="text-center">Registro de Usuario</h3>
+                </div>
+                <div class="card-body">
+                    <form asp-controller="Register" asp-action="Index" method="post" enctype="multipart/form-data">
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label">Nombre</label>
+                            <input asp-for="Name" class="form-control">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="LastName" class="form-label">Apellido</label>
+                            <input asp-for="LastName" class="form-control">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Phone" class="form-label">Telefono</label>
+                            <input asp-for="Phone" class="form-control">
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+
+                       @*  campo para subir la foto de perfil *@
+
+                        <div class="mb-3">
+                            <label asp-for="File" class="form-label">Foto de perfil</label>
+                            <input asp-for="File" type="image" class="form-control">
+                            <span asp-validation-for="File" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Username" class="form-label">Nombre de usuario</label>
+                            <input asp-for="Username" class="form-control">
+                            <span asp-validation-for="Username" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Password" class="form-label">Contraseña</label>
+                            <input asp-for="Password"class="form-control">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="ConfirmPassword" class="form-label">Confirmar contraseña</label>
+                            <input asp-for="ConfirmPassword" class="form-control">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <input type="hidden" asp-for="Id">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a asp-controller="User" asp-action="UserMaintenance" class="btn btn-secondary">Volver atrás</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

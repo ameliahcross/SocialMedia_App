@@ -1,6 +1,6 @@
 ﻿using SocialMedia_App.Core.Domain.Entities;
-using SocialMedia_App.Core.Application.ViewModels.User;
 using SocialMedia_App.Core.Application.Repositories;
+using SocialMedia_App.Core.Application.ViewModels.Login;
 
 namespace SocialMedia_App.Core.Application.Interfaces.Repositories
 {

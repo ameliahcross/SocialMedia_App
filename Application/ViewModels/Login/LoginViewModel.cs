@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace SocialMedia_App.Core.Application.ViewModels.User
+namespace SocialMedia_App.Core.Application.ViewModels.Login
 {
     public class LoginViewModel
     {
@@ -12,7 +12,6 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
         [Required(ErrorMessage = "Debe ingresar una contraseña")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
     }
 }
 
