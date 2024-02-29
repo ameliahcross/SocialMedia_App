@@ -18,8 +18,6 @@ namespace SocialMedia_App.Core.Domain.Entities
         // navigation properties
         public ICollection<Post>? Posts { get; set; }
         public ICollection<Friendship>? Friendships { get; set; }
-
-
     }
 }
 

@@ -20,7 +20,6 @@ namespace SocialMedia_App.Infrastructure.Persistence.Repositories
         public override async Task<User> AddAsync(User user)
         {
             user.Password = PasswordEncryption.ComputeSha256Hash(user.Password);
-            // debo colocar el "await" antes de llamar a la clase padre y ejecutar su method
             return await base.AddAsync(user);
         }
 
