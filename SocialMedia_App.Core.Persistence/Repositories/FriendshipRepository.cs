@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SocialMedia_App.Core.Application.Helpers;
 using SocialMedia_App.Core.Application.Interfaces.Repositories;
-using SocialMedia_App.Core.Application.ViewModels.Login;
 using SocialMedia_App.Core.Domain.Entities;
 using SocialMedia_App.Infrastructure.Persistence.Contexts;
 

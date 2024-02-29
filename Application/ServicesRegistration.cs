@@ -10,7 +10,9 @@ namespace SocialMedia_App.Core.Application
 		public static void AddApplicationLayer(this IServiceCollection services)
 		{
             #region "Services"
-            //services.AddTransient<IAppointmentService, AppointmentService>();
+            services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IFriendshipService, FriendshipService>();
             services.AddTransient<IUserService, UserService>();
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
             #endregion            

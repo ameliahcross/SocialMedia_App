@@ -14,30 +14,46 @@ namespace SocialMedia_App.Core.Application.Services
     {
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFriendshipRepository _friendshipRepository;
-        private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
-        public FriendshipService(IFriendshipRepository friendshipRepository, IHttpContextAccessor httpContextAccessor, IEmailService emailService, IMapper mapper) : base(friendshipRepository, mapper)
+        public FriendshipService(IFriendshipRepository friendshipRepository, 
+            IHttpContextAccessor httpContextAccessor, IMapper mapper)
+            : base(friendshipRepository, mapper)
         {
             _httpContextAccessor = httpContextAccessor;
             _friendshipRepository = friendshipRepository;
-            _emailService = emailService;
             _mapper = mapper;
         }
+
+        // para crear una nueva amistad
+        public async Task AddFriendshipAsync(int userId, int friendId)
+        {
+            var newFriendship = new Friendship
+            {
+                UserId = userId,
+                FriendId = friendId
+            };
+
+            await _friendshipRepository.AddAsync(newFriendship);
+        }
+
+        // para saber si dos usuario son amigos
         public async Task<bool> AreFriendsAsync(int userId, int friendId)
         {
             var friends = await _friendshipRepository.GetAllFriendsByUserIdAsync(userId);
             return friends.Any(friends => friends.FriendId == friendId);
         }
 
+        // para crear la lista de los amigos de cierto usuario
         public async Task<IEnumerable<UserViewModel>> GetFriendsByUserId(int userId)
         {
+            var friendships = await _friendshipRepository.GetAllFriendsByUserIdAsync(userId);
+            var friends = friendships.Select(friend => friend.Friend);
 
+            var friendViewModels = _mapper.Map<IEnumerable<UserViewModel>>(friends);
+            return friendViewModels;
         }
 
-        public async Task<IEnumerable<PostViewModel>> GetFriendPostsByUserId(int userId)
-        {
-
-        }
+       
 
 
     }

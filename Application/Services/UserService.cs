@@ -41,6 +41,7 @@ namespace SocialMedia_App.Core.Application.Services
             }).ToList();
         }
 
+        // para registrar un nuevo usuario y enviar email de confirmacion
         public override async Task<SaveUserViewModel> Add(SaveUserViewModel userToAdd)
         {
             var activationToken = Guid.NewGuid().ToString();
@@ -59,6 +60,7 @@ namespace SocialMedia_App.Core.Application.Services
             return saveUserViewModel;
         }
 
+        // para iniciar sesion
         public async Task<UserViewModel> Login(LoginViewModel loginVm)
         {
             User user = await _userRepository.LoginAsync(loginVm);
@@ -72,17 +74,14 @@ namespace SocialMedia_App.Core.Application.Services
             return userVm;
         }
 
+        // para validar que no se registren con un nombre de usuario existente
         public async Task<bool> ValidateUsername(string username)
         {
             var existingUser = await _userRepository.GetByUsername(username);
             return existingUser == null;
         }
 
-        public async Task<User> GetById(int id)
-        {
-            return await _userRepository.GetByIdAsync(id);
-        }
-
+        // para obtener los amigos, sus publicaciones y las de el usuario
         public async Task<UserViewModel> GetUserWithFriendsAndPostsAsync(int userId)
         {
 

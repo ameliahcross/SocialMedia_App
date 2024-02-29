@@ -38,7 +38,8 @@ namespace SocialMedia_App.Infrastructure.Persistence.Repositories
 
         public async Task<User> GetUserWithIncludeById(int userId)
         {
-
+            // cambiar de null a un User
+            return null;
         }
 
     }

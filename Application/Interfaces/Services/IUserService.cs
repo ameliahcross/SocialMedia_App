@@ -9,7 +9,6 @@ namespace SocialMedia_App.Core.Application.Interfaces.Services
     {
         Task<UserViewModel> Login(LoginViewModel loginVm);
         Task<bool> ValidateUsername(string username);
-        Task<User> GetById(int id);
         Task<UserViewModel> GetUserWithFriendsAndPostsAsync(int userId);
     }
 }
