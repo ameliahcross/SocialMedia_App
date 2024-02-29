@@ -24,15 +24,13 @@ namespace SocialMedia_App.Infrastructure.Persistence
                 services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString,
                     migrations => migrations.MigrationsAssembly(typeof(ApplicationContext).Assembly.FullName)));
             }
-         
+
             #endregion
 
             #region "Repositories"
-            //services.AddTransient<IAppointmentRepository, AppointmentRepository>();
-            //services.AddTransient<IDoctorRepository, DoctorRepository>();
-            //services.AddTransient<ILabResultRepository, LabResultRepository>();
-            //services.AddTransient<ILabTestRepository, LabTestRepository>();
-            //services.AddTransient<IPatientRepository, PatientRepository>();
+            //services.AddTransient<ICommentRepository, CommentRepository>();
+            //services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IFriendshipRepository, FriendshipRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             #endregion

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using SocialMedia_App.Core.Application.DTOs.Email;
 using SocialMedia_App.Core.Application.Interfaces.Repositories;
 using SocialMedia_App.Core.Application.Interfaces.Services;
@@ -10,12 +11,14 @@ namespace SocialMedia_App.Core.Application.Services
 {
     public class UserService : GenericService<SaveUserViewModel, UserViewModel, User>, IUserService
     {
+        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserRepository _userRepository;
         private readonly IEmailService _emailService;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository, IEmailService emailService, IMapper mapper) : base(userRepository, mapper)
+        public UserService(IUserRepository userRepository, IHttpContextAccessor httpContextAccessor, IEmailService emailService, IMapper mapper) : base(userRepository, mapper)
         {
+            _httpContextAccessor = httpContextAccessor;
             _userRepository = userRepository;
             _emailService = emailService;
             _mapper = mapper;
@@ -80,20 +83,26 @@ namespace SocialMedia_App.Core.Application.Services
             return await _userRepository.GetByIdAsync(id);
         }
 
-        public async Task<List<UserViewModel>> GetAllViewModelWithInclude()
+        public async Task<UserViewModel> GetUserWithFriendsAndPostsAsync(int userId)
         {
-            var userList = await _userRepository.GetAllWithIncludeAsync(new List<string> { "Products" });
 
-            return userList.Select(user => new UserViewModel
-            {
-                Name = user.Name,
-                Username = user.UserName,
-                Id = user.Id,
-                Email = user.Email,
-                Password = user.Password,
-                Phone = user.Phone
-            }).ToList();
         }
+
+
+        //public async Task<List<UserViewModel>> GetAllViewModelWithInclude()
+        //{
+        //    var userList = await _userRepository.GetAllWithIncludeAsync(new List<string> { "Friendship" });
+
+        //    return userList.Select(user => new UserViewModel
+        //    {
+        //        Name = user.Name,
+        //        Username = user.UserName,
+        //        Id = user.Id,
+        //        Email = user.Email,
+        //        Password = user.Password,
+        //        Phone = user.Phone
+        //    }).ToList();
+        //}
     }
 }
 
