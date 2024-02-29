@@ -17,6 +17,8 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
 
         public string LastName { get; set; }
 
+        public string Phone { get; set; }
+
     }
 }
 

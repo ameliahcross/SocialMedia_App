@@ -20,7 +20,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light bg-primary bg-opacity-10 border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light bg-primary bg-opacity-10 border-bottom box-shadow">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-action="Index" asp-controller="@(User !=null ? "Home" : "User")">
                     <i class="fa-solid fa-people-arrows text-primary mr-2"></i>
@@ -58,10 +58,16 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Aquí se renderiza la barra lateral si es proporcionada por alguna vista -->
+            @RenderSection("Sidebar", required: false)
+
+            <!-- Contenido principal -->
+            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
     <footer class="border-top footer text-muted">

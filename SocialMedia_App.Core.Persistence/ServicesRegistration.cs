@@ -3,7 +3,6 @@ using SocialMedia_App.Core.Application.Interfaces.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using SocialMedia_App.Core.Application.Repositories;
 using SocialMedia_App.Infrastructure.Persistence.Contexts;
 using SocialMedia_App.Infrastructure.Persistence.Repositories;
 

@@ -14,6 +14,7 @@
     <ProjectReference Include="..\Application\SocialMedia_App.Core.Application.csproj" />
     <ProjectReference Include="..\SocialMedia_App.Core.Domain\SocialMedia_App.Core.Domain.csproj" />
     <ProjectReference Include="..\SocialMedia_App.Core.Persistence\SocialMedia_App.Infrastructure.Persistence.csproj" />
+    <ProjectReference Include="..\SocialMedia_App.Infrastructure.Shared\SocialMedia_App.Infrastructure.Shared.csproj" />
   </ItemGroup>
 
   <ItemGroup>

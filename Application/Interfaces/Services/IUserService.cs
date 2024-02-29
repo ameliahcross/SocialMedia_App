@@ -5,7 +5,7 @@ using SocialMedia_App.Core.Application.ViewModels.Login;
 
 namespace SocialMedia_App.Core.Application.Interfaces.Services
 {
-    public interface IUserService : IGenericService<UserViewModel, SaveUserViewModel>
+    public interface IUserService : IGenericService<SaveUserViewModel, UserViewModel, User>
     {
         Task<UserViewModel> Login(LoginViewModel loginVm);
         Task<bool> ValidateUsername(string username);

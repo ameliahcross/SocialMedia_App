@@ -1,4 +1,6 @@
-﻿using SocialMedia_App.Core.Application.Interfaces.Repositories;
+﻿using AutoMapper;
+using SocialMedia_App.Core.Application.DTOs.Email;
+using SocialMedia_App.Core.Application.Interfaces.Repositories;
 using SocialMedia_App.Core.Application.Interfaces.Services;
 using SocialMedia_App.Core.Application.ViewModels.Login;
 using SocialMedia_App.Core.Application.ViewModels.User;
@@ -6,23 +8,27 @@ using SocialMedia_App.Core.Domain.Entities;
 
 namespace SocialMedia_App.Core.Application.Services
 {
-    public class UserService : IUserService
+    public class UserService : GenericService<SaveUserViewModel, UserViewModel, User>, IUserService
     {
-        private readonly IUserRepository _repository;
+        private readonly IUserRepository _userRepository;
+        private readonly IEmailService _emailService;
+        private readonly IMapper _mapper;
 
-        public UserService(IUserRepository useRepository)
+        public UserService(IUserRepository userRepository, IEmailService emailService, IMapper mapper) : base(userRepository, mapper)
         {
-            _repository = useRepository;
+            _userRepository = userRepository;
+            _emailService = emailService;
+            _mapper = mapper;
         }
 
         public async Task<List<UserViewModel>> GetAllViewModel()
         {
-            var usersList = await _repository.GetAllAsync();
+            var usersList = await _userRepository.GetAllAsync();
 
             return usersList.Select(user => new UserViewModel
             {
                 Id = user.Id,
-                Username = user.Username,
+                Username = user.UserName,
                 Password = user.Password,
                 Email = user.Email,
                 Name = user.Name,
@@ -32,91 +38,62 @@ namespace SocialMedia_App.Core.Application.Services
             }).ToList();
         }
 
-        public async Task<SaveUserViewModel> GetByIdSaveViewModel(int id)
+        public override async Task<SaveUserViewModel> Add(SaveUserViewModel userToAdd)
         {
-            var user = await _repository.GetByIdAsync(id);
-            SaveUserViewModel userViewModel = new();
-            userViewModel.Id = user.Id;
-            userViewModel.Username = user.Username;
-            userViewModel.Password = user.Password;
-            userViewModel.ConfirmPassword = user.Password;
-            userViewModel.Email = user.Email;
-            userViewModel.Name = user.Name;
-            userViewModel.LastName = user.LastName;
-            //userViewModel.Role = user.Role;
+            var activationToken = Guid.NewGuid().ToString();
+            userToAdd.ActivationToken = activationToken;
 
-            return userViewModel;
-        }
+            SaveUserViewModel saveUserViewModel = await base.Add(userToAdd);
 
-        public async Task Update(SaveUserViewModel userToSave)
-        {
-            User user = new();
-            user.Id = userToSave.Id;
-            user.Username = userToSave.Username;
-            user.Password = userToSave.Password;
-            user.Email = userToSave.Email;
-            user.Name = userToSave.Name;
-            user.LastName = userToSave.LastName;
-            //user.Role = userToSave.Role;
-
-            await _repository.UpdateAsync(user);
-        }
-
-        public async Task Add(SaveUserViewModel userToCreate)
-        {
-            var user = new User
-
+            await _emailService.SendAsync(new EmailRequest
             {
-                Id = userToCreate.Id,
-                Username = userToCreate.Username,
-                Password = userToCreate.Password,
-                Email = userToCreate.Email,
-                Name = userToCreate.Name,
-                LastName = userToCreate.LastName,
-                //Role = userToCreate.Role
+                To = saveUserViewModel.Email,
+                From = _emailService.MailSettings.EmailFrom,
+                Body = $"El usuario: {saveUserViewModel.UserName} se ha creado exitosamente!",
+                Subject = "Bienvenido(a) a My Social Media."
+            });
 
-            };
-
-            await _repository.AddAsync(user);
-        }
-
-        public async Task Delete(int id)
-        {
-            var user = await _repository.GetByIdAsync(id);
-            await _repository.DeleteAsync(user);
+            return saveUserViewModel;
         }
 
         public async Task<UserViewModel> Login(LoginViewModel loginVm)
         {
-            User user = await _repository.LoginAsync(loginVm);
+            User user = await _userRepository.LoginAsync(loginVm);
 
             if (user == null)
             {
                 return null;
             }
 
-            UserViewModel userVm = new();
-            userVm.Id = user.Id;
-            userVm.Name = user.Name;
-            userVm.Email = user.Email;
-            userVm.Username = user.Username;
-            userVm.Password = user.Password;
-            //userVm.Role = user.Role;
-
+            UserViewModel userVm = _mapper.Map<UserViewModel>(user);
             return userVm;
         }
 
         public async Task<bool> ValidateUsername(string username)
         {
-            var existingUser = await _repository.GetByUsername(username);
+            var existingUser = await _userRepository.GetByUsername(username);
             return existingUser == null;
         }
 
         public async Task<User> GetById(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            return await _userRepository.GetByIdAsync(id);
         }
 
+        public async Task<List<UserViewModel>> GetAllViewModelWithInclude()
+        {
+            var userList = await _userRepository.GetAllWithIncludeAsync(new List<string> { "Products" });
+
+            return userList.Select(user => new UserViewModel
+            {
+                Name = user.Name,
+                Username = user.UserName,
+                Id = user.Id,
+                Email = user.Email,
+                Password = user.Password,
+                Phone = user.Phone
+            }).ToList();
+        }
     }
 }
 

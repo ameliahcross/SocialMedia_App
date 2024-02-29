@@ -8,7 +8,7 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar el nombre de usuario")]
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         [Required(ErrorMessage = "Debe ingresar una contraseña")]
         [DataType(DataType.Password)]
@@ -34,10 +34,11 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
             ErrorMessage = "Debe ingresar un número de teléfono válido de República Dominicana")]
         public string Phone { get; set; }
 
-        [Required(ErrorMessage = "Debe añadir una imagen")]
         public string ImageUrl { get; set; }
 
         public IFormFile File { get; set; }
+
+        public string ActivationToken { get; set; }
     }
 }
 

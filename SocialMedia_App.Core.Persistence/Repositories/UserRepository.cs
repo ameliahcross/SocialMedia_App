@@ -17,24 +17,24 @@ namespace SocialMedia_App.Infrastructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public override async Task AddAsync(User user)
+        public override async Task<User> AddAsync(User user)
         {
             user.Password = PasswordEncryption.ComputeSha256Hash(user.Password);
             // debo colocar el "await" antes de llamar a la clase padre y ejecutar su method
-            await base.AddAsync(user);
+            return await base.AddAsync(user);
         }
 
         public async Task<User> LoginAsync(LoginViewModel loginVm)
         {
             string passwordEncrypt = PasswordEncryption.ComputeSha256Hash(loginVm.Password);
             User user = await _dbContext.Set<User>()
-                .FirstOrDefaultAsync(user => user.Username == loginVm.Username && user.Password == passwordEncrypt);
+                .FirstOrDefaultAsync(user => user.UserName == loginVm.Username && user.Password == passwordEncrypt);
             return user;
         }
 
         public async Task<User> GetByUsername(string username)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(user => user.Username == username);
+            return await _dbContext.Users.FirstOrDefaultAsync(user => user.UserName == username);
         }
     }
 }

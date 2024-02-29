@@ -1,12 +1,14 @@
 using SocialMedia_App.Infrastructure.Persistence;
 using SocialMedia_App.Core.Application;
 using SocialMedia_App.Middlewares;
+using SocialMedia_App.Infrastructure.Shared;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddSession();
 builder.Services.AddPersistenceLayer(builder.Configuration);
 builder.Services.AddApplicationLayer();
+builder.Services.AddSharedInfrastructure(builder.Configuration);
 builder.Services.AddControllersWithViews();
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<ValidateUserSession, ValidateUserSession>();
@@ -31,6 +33,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Login}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

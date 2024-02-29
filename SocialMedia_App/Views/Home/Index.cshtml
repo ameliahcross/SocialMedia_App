@@ -1,17 +1,29 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Inicio";
 }
 
-<h2 class="text-center my-5">Social Media</h2>
-<div class="container d-flex justify-content-center align-items-center mt-5">
-    <div class="row">
-        <div class="d-grid gap-2">
-            <a asp-controller="User" asp-action="UserMaintenance" class="btn btn-success">Mantenimiento de Usuarios</a>
-            <a asp-controller="Doctor" asp-action="Index" class="btn btn-success">Mantenimiento de Médicos</a>
-            <a asp-controller="LabTest" asp-action="Index" class="btn btn-success">Mantenimiento de Pruebas de Laboratorio</a>
-            <a asp-controller="Patient" asp-action="Index" class="btn btn-success">Mantenimiento de Pacientes</a>
-            <a asp-controller="Appointment" asp-action="Index" class="btn btn-success">Mantenimiento de Citas</a>
-            <a asp-controller="LabResult" asp-action="Index" class="btn btn-success">Mantenimiento de resultados de Pruebas de Laboratorio</a>
-        </div>
+@section Sidebar {
+    <div class="col-md-3 col-xl-2 bg-dark sidebar vh-100">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a class="nav-link active text-white" aria-current="page" href="@Url.Action("Index", "Home")">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            </li>
+            <li>
+                <a class="nav-link text-white" href="@Url.Action("Index", "Friends")">
+                    <i class="fas fa-user-friends"></i> Amigos
+                </a>
+            </li>
+            <li>
+                <a class="nav-link text-white" href="@Url.Action("Index", "Profile")">
+                    <i class="fas fa-user"></i> Mi Perfil
+                </a>
+            </li>
+        </ul>
     </div>
+}
+
+<div class="row">
+    <h6 class="mt-2 text-center">Tu feed.</h6>
 </div>
