@@ -31,8 +31,7 @@ namespace SocialMedia_App.Core.Application.Services
             return usersList.Select(user => new UserViewModel
             {
                 Id = user.Id,
-                Username = user.UserName,
-                Password = user.Password,
+                UserName = user.UserName,
                 Email = user.Email,
                 Name = user.Name,
                 LastName = user.LastName,

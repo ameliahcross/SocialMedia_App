@@ -1,17 +1,17 @@
 ﻿@{
-    ViewData["Title"] = "Feed";
+    ViewData["Title"] = "Amigos";
 }
 
 @section Sidebar {
     <div class="col-md-3 col-xl-2 bg-dark sidebar vh-100">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a class="nav-link active text-white" aria-current="page" href="@Url.Action("Index", "Home")">
+                <a class="nav-link active text-white" href="@Url.Action("Index", "Home")">
                     <i class="fas fa-home"></i> Inicio
                 </a>
             </li>
             <li>
-                <a class="nav-link text-white" href="@Url.Action("Index", "Friendship")">
+                <a class="nav-link text-white" aria-current="page" href="@Url.Action("Index", "Friendship")">
                     <i class="fas fa-user-friends"></i> Amigos
                 </a>
             </li>
@@ -25,5 +25,5 @@
 }
 
 <div class="row">
-    <h6 class="mt-2 text-center">Tu feed.</h6>
+    <h6 class="mt-2 text-center">Tus amigos.</h6>
 </div>

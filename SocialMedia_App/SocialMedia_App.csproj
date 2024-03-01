@@ -17,8 +17,4 @@
     <ProjectReference Include="..\SocialMedia_App.Infrastructure.Shared\SocialMedia_App.Infrastructure.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Views\User\" />
-  </ItemGroup>
-
 </Project>

@@ -38,20 +38,11 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="User" asp-action="Index">Amigos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link fw-bold text-info" asp-controller="User" asp-action="Index">Mi Perfil</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-primary" asp-controller="User" asp-action="LogOut">Salir</a>
-                        </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-success" asp-controller="User" asp-action="Register">Registrarme</a>
+                            <a class="nav-link text-primary" asp-controller="User" asp-action="Register">Registrarme</a>
                         </li>
                     }
                 </ul>
@@ -60,10 +51,8 @@
     </header>
     <div class="container-fluid">
         <div class="row">
-            <!-- Aquí se renderiza la barra lateral si es proporcionada por alguna vista -->
             @RenderSection("Sidebar", required: false)
-
-            <!-- Contenido principal -->
+            
             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
                 @RenderBody()
             </main>

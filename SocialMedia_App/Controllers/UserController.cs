@@ -4,8 +4,9 @@ using SocialMedia_App.Core.Application.ViewModels.Login;
 using SocialMedia_App.Core.Application.ViewModels.User;
 using SocialMedia_App.Core.Application.Helpers;
 using SocialMedia_App.Middlewares;
-using SocialMedia_App.Models;
-using System.Diagnostics;
+
+//registro de usuarios, restablecimiento de contraseñas activación de cuentas
+//ademas de la edición del perfil de usuario
 
 namespace WebApp.SocialMedia_App.Controllers
 {
@@ -48,7 +49,7 @@ namespace WebApp.SocialMedia_App.Controllers
             }
             else
             {
-                ModelState.AddModelError("userValidation", "Datos de acceso incorrecto");
+                ModelState.AddModelError("userValidation", "Datos de acceso incorrectos");
             }
 
             return View(vm);
@@ -57,7 +58,7 @@ namespace WebApp.SocialMedia_App.Controllers
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("user");
-            return RedirectToRoute(new { controller = "User", action = "Index" });
+            return RedirectToRoute(new { controller = "Login", action = "Index" });
         }
 
         public IActionResult Register()
