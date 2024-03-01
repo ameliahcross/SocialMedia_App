@@ -28,8 +28,8 @@ namespace SocialMedia_App.Infrastructure.Persistence
             #endregion
 
             #region "Repositories"
-            //services.AddTransient<ICommentRepository, CommentRepository>();
-            //services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IFriendshipRepository, FriendshipRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));

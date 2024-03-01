@@ -11,7 +11,9 @@ namespace SocialMedia_App.Core.Application.Mappings
     {
         public GeneralProfile()
         {
-                
+            #region User
+
+            #endregion
         }
     }
 }

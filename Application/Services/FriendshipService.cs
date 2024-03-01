@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
-using SocialMedia_App.Core.Application.Interfaces.Repositories;
 using SocialMedia_App.Core.Application.Interfaces.Services;
 using SocialMedia_App.Core.Application.ViewModels.Friendship;
-using SocialMedia_App.Core.Application.ViewModels.Post;
 using SocialMedia_App.Core.Application.ViewModels.User;
 using SocialMedia_App.Core.Domain.Entities;
 using SocialMedia_App.Infrastructure.Persistence.Repositories;
@@ -44,12 +42,12 @@ namespace SocialMedia_App.Core.Application.Services
         }
 
         // para crear la lista de los amigos de cierto usuario
-        public async Task<IEnumerable<UserViewModel>> GetFriendsByUserId(int userId)
+        public async Task<List<UserViewModel>> GetFriendsByUserId(int userId)
         {
             var friendships = await _friendshipRepository.GetAllFriendsByUserIdAsync(userId);
             var friends = friendships.Select(friend => friend.Friend);
 
-            var friendViewModels = _mapper.Map<IEnumerable<UserViewModel>>(friends);
+            var friendViewModels = _mapper.Map<List<UserViewModel>>(friends);
             return friendViewModels;
         }
 

@@ -13,7 +13,7 @@ namespace SocialMedia_App.Core.Application.ViewModels.Friendship
         public int FriendId { get; set; }
         public string FriendName { get; set; }
         public string FriendLastName { get; set; }
-        public string FriendImageUrl { get; set; 
+        public string FriendImageUrl { get; set; }
 
     }
 }

@@ -35,13 +35,6 @@ namespace SocialMedia_App.Infrastructure.Persistence.Repositories
         {
             return await _dbContext.Users.FirstOrDefaultAsync(user => user.UserName == username);
         }
-
-        public async Task<User> GetUserWithIncludeById(int userId)
-        {
-            // cambiar de null a un User
-            return null;
-        }
-
     }
 }
 

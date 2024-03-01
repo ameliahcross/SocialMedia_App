@@ -14,8 +14,10 @@ namespace SocialMedia_App.Core.Application
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IFriendshipService, FriendshipService>();
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient(typeof(IGenericService<,,>), typeof(GenericService<,,>));
+            #endregion
+
             services.AddAutoMapper(Assembly.GetExecutingAssembly());
-            #endregion            
         }
 
     }

@@ -81,13 +81,6 @@ namespace SocialMedia_App.Core.Application.Services
             return existingUser == null;
         }
 
-        // para obtener los amigos, sus publicaciones y las de el usuario
-        public async Task<UserViewModel> GetUserWithFriendsAndPostsAsync(int userId)
-        {
-
-        }
-
-
         //public async Task<List<UserViewModel>> GetAllViewModelWithInclude()
         //{
         //    var userList = await _userRepository.GetAllWithIncludeAsync(new List<string> { "Friendship" });

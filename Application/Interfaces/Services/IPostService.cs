@@ -9,7 +9,7 @@ namespace SocialMedia_App.Core.Application.Interfaces.Services
 {
     public interface IPostService
     {
-        Task<IEnumerable<PostViewModel>> GetFriendPostsByUserId(int userId);
-        Task<IEnumerable<PostViewModel>> GetAllPostByUserIdWithIncludeAsync(int userId);
+        Task<List<PostViewModel>> GetFriendPostsByUserId(int userId);
+        Task<List<PostViewModel>> GetAllPostByUserIdWithIncludeAsync(int userId);
     }
 }

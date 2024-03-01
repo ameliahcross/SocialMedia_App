@@ -7,7 +7,6 @@ namespace SocialMedia_App.Core.Application.Interfaces.Repositories
     {
         Task<User> LoginAsync(LoginViewModel loginVm);
         Task<User> GetByUsername(string username);
-        Task<User> GetUserWithIncludeById(int userId);
     }
 }
 

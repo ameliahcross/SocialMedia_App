@@ -24,21 +24,21 @@ namespace SocialMedia_App.Core.Application.Services
         }
 
         // para crear la lista de publicaciones del usuario loggueado
-        public async Task<IEnumerable<PostViewModel>> GetAllPostByUserIdWithIncludeAsync(int userId)
+        public async Task<List<PostViewModel>> GetAllPostByUserIdWithIncludeAsync(int userId)
         {
             var userPosts = await _postRepository.GetAllPostByUserIdWithIncludeAsync(userId);
-            var postByTheUser = _mapper.Map<IEnumerable<PostViewModel>>(userPosts);
+            var postByTheUser = _mapper.Map<List<PostViewModel>>(userPosts);
             return postByTheUser;
         }
 
         // para crear la lista de publicaciones de los amigos de cierto usuario
-        public async Task<IEnumerable<PostViewModel>> GetFriendPostsByUserId(int userId)
+        public async Task<List<PostViewModel>> GetFriendPostsByUserId(int userId)
         {
             var friendships = await _friendshipRepository.GetAllFriendsByUserIdAsync(userId);
             var friendIds = friendships.Select(friend => friend.FriendId).ToList();
             var friendsPosts = await _postRepository.GetPostsByUsersIdsWithIncludeAsync(friendIds);
 
-            var postByFriendsViewModels = _mapper.Map<IEnumerable<PostViewModel>>(friendsPosts);
+            var postByFriendsViewModels = _mapper.Map<List<PostViewModel>>(friendsPosts);
             return postByFriendsViewModels;
         }
     }
