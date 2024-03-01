@@ -5,7 +5,7 @@ namespace SocialMedia_App.Core.Application.ViewModels.Friendship
 {
 	public class FriendshipViewModel
 	{
-        public int FriendshipId { get; set; }
+        public int Id { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string UserLastName { get; set; }

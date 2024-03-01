@@ -16,6 +16,6 @@ namespace SocialMedia_App.Core.Application.ViewModels.Comment
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string UserImageUrl { get; set; }
-        public List<CommentViewModel> Replies { get; set; }
+        public ICollection<CommentViewModel> Replies { get; set; }
     }
 }

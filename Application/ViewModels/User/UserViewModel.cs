@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Http;
 using SocialMedia_App.Core.Domain.Entities;
 
 namespace SocialMedia_App.Core.Application.ViewModels.User
@@ -7,9 +8,7 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
 	{
         public int Id { get; set; }
 
-        public string Username { get; set; }
-
-        public string Password { get; set; }
+        public string UserName { get; set; }
 
         public string Email { get; set; }
 
@@ -18,6 +17,10 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
         public string LastName { get; set; }
 
         public string Phone { get; set; }
+
+        public string ImageUrl { get; set; }
+
+        public IFormFile File { get; set; }
 
     }
 }

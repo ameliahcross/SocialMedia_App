@@ -9,7 +9,7 @@ namespace SocialMedia_App.Core.Application.ViewModels.Post
 {
     public class PostViewModel
     {
-        public int Id { get; set; } // Identificador de la publicación
+        public int Id { get; set; }
         public string Content { get; set; }
         public DateTime CreationDate { get; set; }
         public byte[] Image { get; set; }
