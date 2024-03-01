@@ -31,10 +31,24 @@ namespace SocialMedia_App.Infrastructure.Persistence.Repositories
             return user;
         }
 
-        public async Task<User> GetByUsername(string username)
+        public async Task<User> GetByUsernameAsync(string username)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(user => user.UserName == username);
         }
+
+        public async Task<bool> UpdatePasswordAsync(string username, string newPassword)
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.UserName == username);
+            if (user != null)
+            {
+                user.Password = PasswordEncryption.ComputeSha256Hash(newPassword);
+                _dbContext.Users.Update(user);
+                await _dbContext.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
     }
 }
 

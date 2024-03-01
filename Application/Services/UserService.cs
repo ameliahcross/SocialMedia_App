@@ -34,8 +34,7 @@ namespace SocialMedia_App.Core.Application.Services
                 UserName = user.UserName,
                 Email = user.Email,
                 Name = user.Name,
-                LastName = user.LastName,
-                //Role = user.Role,
+                LastName = user.LastName
 
             }).ToList();
         }
@@ -73,27 +72,43 @@ namespace SocialMedia_App.Core.Application.Services
             return userVm;
         }
 
-        // para validar que no se registren con un nombre de usuario existente
-        public async Task<bool> ValidateUsername(string username)
+        // para validar la existencia de un usuario
+        public async Task<bool> UserExists(string username)
         {
-            var existingUser = await _userRepository.GetByUsername(username);
-            return existingUser == null;
+            var existingUser = await _userRepository.GetByUsernameAsync(username);
+            return existingUser != null;
         }
 
-        //public async Task<List<UserViewModel>> GetAllViewModelWithInclude()
-        //{
-        //    var userList = await _userRepository.GetAllWithIncludeAsync(new List<string> { "Friendship" });
+        // recuperar por nombre de usuario
+        public async Task<UserViewModel> GetByUsername(string username)
+        {
+            var user = await _userRepository.GetByUsernameAsync(username);
+            if (user == null)
+            {
+                return null;
+            }
+            return _mapper.Map<UserViewModel>(user);
+        }
 
-        //    return userList.Select(user => new UserViewModel
-        //    {
-        //        Name = user.Name,
-        //        Username = user.UserName,
-        //        Id = user.Id,
-        //        Email = user.Email,
-        //        Password = user.Password,
-        //        Phone = user.Phone
-        //    }).ToList();
-        //}
+        // para generar una contraseña
+        public string GenerateSecurePassword(int length = 8)
+        {
+            const string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            Random random = new Random();
+            char[] chars = new char[length];
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = validChars[random.Next(validChars.Length)];
+            }
+            return new string(chars);
+        }
+
+        // para reestablecer la contraseña
+        public async Task<bool> UpdatePassword(string username, string newPassword)
+        {
+            return await _userRepository.UpdatePasswordAsync(username, newPassword);
+        }
+
     }
 }
 

@@ -6,7 +6,8 @@ namespace SocialMedia_App.Core.Application.Interfaces.Repositories
     public interface IUserRepository : IGenericRepository<User>
     {
         Task<User> LoginAsync(LoginViewModel loginVm);
-        Task<User> GetByUsername(string username);
+        Task<User> GetByUsernameAsync(string username);
+        Task<bool> UpdatePasswordAsync(string username, string newPassword);
     }
 }
 

@@ -4,6 +4,7 @@ using SocialMedia_App.Core.Application.ViewModels.Login;
 using SocialMedia_App.Core.Application.ViewModels.User;
 using SocialMedia_App.Core.Application.Helpers;
 using SocialMedia_App.Middlewares;
+using SocialMedia_App.Core.Application.DTOs.Email;
 
 //registro de usuarios, restablecimiento de contraseñas activación de cuentas
 //ademas de la edición del perfil de usuario
@@ -14,52 +15,15 @@ namespace WebApp.SocialMedia_App.Controllers
     {
         private readonly IUserService _userService;
         private readonly ValidateUserSession _validateUserSession;
+        private readonly IEmailService _emailService;
 
-        public UserController(IUserService userService,ValidateUserSession validateUserSession)
+        public UserController(IUserService userService,ValidateUserSession validateUserSession, IEmailService emailService)
         {
             _userService = userService;
             _validateUserSession = validateUserSession;
+            _emailService = emailService;
         }
 
-        public IActionResult Index()
-        {
-            if (_validateUserSession.HasUser())
-            {
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
-            }
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Index(LoginViewModel vm)
-        {
-            if (!ModelState.IsValid)
-            {
-               return View(vm);
-            }
-            if (_validateUserSession.HasUser())
-            {
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
-            }
-            UserViewModel userVm = await _userService.Login(vm);
-            if (userVm != null)
-            {
-                HttpContext.Session.Set<UserViewModel>("user", userVm);
-                return RedirectToRoute(new { controller = "Home", action = "Index" });
-            }
-            else
-            {
-                ModelState.AddModelError("userValidation", "Datos de acceso incorrectos");
-            }
-
-            return View(vm);
-        }
-
-        public IActionResult LogOut()
-        {
-            HttpContext.Session.Remove("user");
-            return RedirectToRoute(new { controller = "Login", action = "Index" });
-        }
 
         public IActionResult Register()
         {
@@ -83,7 +47,50 @@ namespace WebApp.SocialMedia_App.Controllers
             }
 
             await _userService.Add(vm);
-            return RedirectToRoute(new { controller = "User", action = "Index" });
+            return RedirectToRoute(new { controller = "Login", action = "Index" });
         }
+
+        public IActionResult ResetPassword()
+        {
+            if (_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "Home", action = "Index" });
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(LoginViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            bool userExists = await _userService.UserExists(vm.Username);
+            if (userExists)
+            {
+                var newPassword = _userService.GenerateSecurePassword();
+
+                UserViewModel userVm = await _userService.GetByUsername(vm.Username);
+                await _userService.UpdatePassword(userVm.UserName, newPassword);
+
+                await _emailService.SendAsync(new EmailRequest
+                {
+                    To = userVm.Email,
+                    Subject = "Restablecimiento de Contraseña",
+                    Body = $"Su nueva contraseña es: {newPassword}"
+                });
+
+                TempData["ResetPasswordSuccess"] = "Se ha enviado la nueva contraseña a su correo electrónico.";
+                return RedirectToAction("Index", "Login");
+            }
+            else
+            {
+                ModelState.AddModelError("userValidation", "El nombre de usuario no existe.");
+                return View(vm);
+            }
+        }
+
     }
 }
