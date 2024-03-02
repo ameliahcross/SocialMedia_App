@@ -1,4 +1,9 @@
-﻿@{
+﻿@using SocialMedia_App.Core.Application.ViewModels.User
+@inject IHttpContextAccessor httpContext;
+@using Microsoft.AspNetCore.Http;
+@using SocialMedia_App.Core.Application.Helpers;
+@{
+    UserViewModel User = httpContext.HttpContext.Session.Get<UserViewModel>("user");
     ViewData["Title"] = "Feed";
 }
 
@@ -16,7 +21,7 @@
                 </a>
             </li>
             <li>
-                <a class="nav-link text-white" href="@Url.Action("Index", "User")">
+                <a class="nav-link text-white" href="@Url.Action("Index", "Profile")">
                     <i class="fas fa-user"></i> Mi Perfil
                 </a>
             </li>
@@ -25,5 +30,6 @@
 }
 
 <div class="row">
-    <h6 class="mt-2 text-center">Tu feed.</h6>
+    <h4 class="mt-2 text-center text-primary"> Hola, @User.UserName.</h4>
+    <h6 class="mt-2"> Tu feed</h6>
 </div>

@@ -44,15 +44,17 @@ namespace SocialMedia_App.Core.Application.Services
         {
             var activationToken = Guid.NewGuid().ToString();
             userToAdd.ActivationToken = activationToken;
+            userToAdd.IsActive = false;
 
             SaveUserViewModel saveUserViewModel = await base.Add(userToAdd);
+            var activationUrl = $"http://localhost:7145/User/Activate?token={activationToken}";
 
             await _emailService.SendAsync(new EmailRequest
-            {
+            {   
                 To = saveUserViewModel.Email,
                 From = _emailService.MailSettings.EmailFrom,
-                Body = $"El usuario: {saveUserViewModel.UserName} se ha creado exitosamente!",
-                Subject = "Bienvenido(a) a My Social Media."
+                Body = $"Hola, {saveUserViewModel.UserName}, por favor activa tu cuenta haciendo click aquí: {activationUrl}",
+                Subject = "Bienvenido(a). Activa tu cuenta en My Social Media."
             });
 
             return saveUserViewModel;
@@ -108,6 +110,30 @@ namespace SocialMedia_App.Core.Application.Services
         {
             return await _userRepository.UpdatePasswordAsync(username, newPassword);
         }
+
+        // para obtener usuario por token
+        public async Task<UserViewModel> GetUserByActivationToken(string token)
+        {
+            var user = await _userRepository.GetUserByActivationTokenAsync(token);
+            if (user != null)
+            {
+                return _mapper.Map<UserViewModel>(user);
+            }
+            return null;
+        }
+
+        // para activar usuario
+        public async Task ActivateUser(string activationToken)
+        {
+            var user = await _userRepository.GetUserByActivationTokenAsync(activationToken);
+            if (user != null)
+            {
+                user.IsActive = true;
+                user.ActivationToken = null;
+                await _userRepository.UpdateAsync(user, user.Id);
+            }
+        }
+
 
     }
 }

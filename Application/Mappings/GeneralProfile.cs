@@ -19,6 +19,19 @@ namespace SocialMedia_App.Core.Application.Mappings
                  .ForMember(dest => dest.ConfirmPassword, opt => opt.Ignore())
                  .ForMember(dest => dest.File, opt => opt.Ignore())
                  .ReverseMap();
+
+            CreateMap<User, EditUserViewModel>()
+                .ForMember(dest => dest.Password, opt => opt.Ignore())
+                .ForMember(dest => dest.ConfirmPassword, opt => opt.Ignore())
+                .ForMember(dest => dest.File, opt => opt.Ignore())
+                .ReverseMap()
+                .ForMember(dest => dest.Password, opt => opt.Ignore())
+                .ForMember(dest => dest.ImageUrl, opt => opt.Ignore())
+                .ForMember(dest => dest.IsActive, opt => opt.Ignore())
+                .ForMember(dest => dest.ActivationToken, opt => opt.Ignore())
+                .ForMember(dest => dest.UserName, opt => opt.Ignore())
+                .ForMember(dest => dest.Posts, opt => opt.Ignore())
+                .ForMember(dest => dest.Friendships, opt => opt.Ignore());
             #endregion
 
             #region Post

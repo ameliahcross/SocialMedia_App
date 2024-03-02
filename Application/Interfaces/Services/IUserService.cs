@@ -11,9 +11,9 @@ namespace SocialMedia_App.Core.Application.Interfaces.Services
         Task<bool> UserExists(string username);
         Task<bool> UpdatePassword(string username, string newPassword);
         Task<UserViewModel> GetByUsername(string username);
-        string GenerateSecurePassword();
-
-        //Task<UserViewModel> GetUserWithFriendsAndPostsAsync(int userId);
+        string GenerateSecurePassword(int length);
+        Task<UserViewModel> GetUserByActivationToken(string token);
+        Task ActivateUser(UserViewModel user);
     }
 }
 

@@ -24,6 +24,25 @@ namespace WebApp.SocialMedia_App.Controllers
             _emailService = emailService;
         }
 
+        public async Task<IActionResult> Activate(string token)
+        {
+            if (!_validateUserSession.HasUser())
+            {
+                return View("Register");
+            }
+
+            var userToActivate = await _userService.GetUserByActivationToken(token);
+
+            if (userToActivate != null)
+            {
+                await _userService.ActivateUser(userToActivate);
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
+            else
+            {
+                return View("Register");
+            }
+        }
 
         public IActionResult Register()
         {
@@ -37,6 +56,12 @@ namespace WebApp.SocialMedia_App.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(SaveUserViewModel vm)
         {
+            var isUsernameValid = await _userService.UserExists(vm.UserName);
+            if (!isUsernameValid)
+            {
+                ModelState.AddModelError("UserName", "El nombre de usuario ya existe.");
+                return View(vm);
+            }
             if (!ModelState.IsValid)
             {
                 return View(vm);
@@ -70,7 +95,7 @@ namespace WebApp.SocialMedia_App.Controllers
             bool userExists = await _userService.UserExists(vm.Username);
             if (userExists)
             {
-                var newPassword = _userService.GenerateSecurePassword();
+                var newPassword = _userService.GenerateSecurePassword(8);
 
                 UserViewModel userVm = await _userService.GetByUsername(vm.Username);
                 await _userService.UpdatePassword(userVm.UserName, newPassword);

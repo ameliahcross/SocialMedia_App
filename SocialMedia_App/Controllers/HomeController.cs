@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia_App.Core.Application.Interfaces.Services;
+using SocialMedia_App.Core.Application.Services;
 using SocialMedia_App.Core.Application.ViewModels.User;
+using SocialMedia_App.Middlewares;
 using SocialMedia_App.Models;
 using System.Diagnostics;
 
@@ -7,27 +10,27 @@ namespace SocialMedia_App.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IPostService _postService;
+        private readonly ValidateUserSession _validateUserSession;
+        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IPostService postService, ValidateUserSession validateUserSession, IEmailService emailService)
         {
-            _logger = logger;
+            _postService = postService;
+            _validateUserSession = validateUserSession;
+            _emailService = emailService;
         }
 
         public IActionResult Index()
         {
-            return View(new SaveUserViewModel());
-        }
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "User", action = "Register" });
+            }
 
-        public IActionResult Privacy()
-        {
             return View();
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
     }
 }

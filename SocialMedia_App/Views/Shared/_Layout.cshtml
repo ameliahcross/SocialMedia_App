@@ -36,13 +36,16 @@
                     @if (User != null)
                     {
                         <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-primary" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                     }
                     else
                     {
                         <li class="nav-item">
-                            <a class="nav-link text-primary" asp-controller="User" asp-action="Register">Registrarme</a>
+                            <a class="nav-link text-primary fw-bold" asp-controller="Login" asp-action="Index">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary" asp-controller="User" asp-action="Register">Registrarme</a>
                         </li>
                     }
                 </ul>

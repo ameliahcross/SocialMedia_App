@@ -3,6 +3,25 @@
 @{
     ViewData["Title"] = "Login";
 }
+<div class="col-md-3 col-xl-2 bg-dark sidebar">
+    <ul class="nav nav-pills flex-column mb-auto">
+        @*   <li class="nav-item">
+        <a class="nav-link active text-white" aria-current="page" href="@Url.Action("Index", "Home")">
+        <i class="fas fa-home"></i> Inicio
+        </a>
+        </li>
+        <li>
+        <a class="nav-link text-white" href="@Url.Action("Index", "Friendship")">
+        <i class="fas fa-user-friends"></i> Amigos
+        </a>
+        </li>
+        <li>
+        <a class="nav-link text-white" href="@Url.Action("Index", "Profile")">
+        <i class="fas fa-user"></i> Mi Perfil
+        </a>
+        </li> *@
+    </ul>
+</div>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -24,7 +43,7 @@
                         </div>
                         <button type="submit" class="btn btn-primary">Iniciar sesión</button>
                         <a asp-controller="User" asp-action="Register" class="btn btn-secondary">Registrarme</a>
-                        <a asp-controller="User" asp-action="Register" class="btn btn-info">Reestablecer contraseña</a>
+                        <a asp-controller="User" asp-action="ResetPassword" class="btn btn-info">Reestablecer contraseña</a>
                     </form>
                 </div>
             </div>

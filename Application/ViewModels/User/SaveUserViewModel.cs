@@ -38,6 +38,8 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
 
         public IFormFile File { get; set; }
 
+        public bool IsActive { get; set; }
+
         public string ActivationToken { get; set; }
     }
 }

@@ -49,6 +49,15 @@ namespace SocialMedia_App.Infrastructure.Persistence.Repositories
             return false;
         }
 
+        public async Task<User> GetUserByActivationTokenAsync(string token)
+        {
+            return await _dbContext.Users
+                .Where(u => u.ActivationToken == token && !u.IsActive)
+                .FirstOrDefaultAsync();
+        }
+
+   
+
     }
 }
 

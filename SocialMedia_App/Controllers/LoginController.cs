@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SocialMedia_App.Core.Application.Interfaces.Services;
-using SocialMedia_App.Core.Application.Services;
 using SocialMedia_App.Core.Application.ViewModels.Login;
+using SocialMedia_App.Core.Application.Helpers;
 using SocialMedia_App.Core.Application.ViewModels.User;
 using SocialMedia_App.Middlewares;
-using SocialMedia_App.Models;
-using System.Diagnostics;
 
 namespace SocialMedia_App.Controllers
 {
@@ -43,6 +41,7 @@ namespace SocialMedia_App.Controllers
             UserViewModel userVm = await _userService.Login(vm);
             if (userVm != null)
             {
+                // guarda la información del usuario loggueado
                 HttpContext.Session.Set<UserViewModel>("user", userVm);
                 return RedirectToAction("Index", "Home");
             }

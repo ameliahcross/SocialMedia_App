@@ -8,6 +8,7 @@ namespace SocialMedia_App.Core.Application.Interfaces.Repositories
         Task<User> LoginAsync(LoginViewModel loginVm);
         Task<User> GetByUsernameAsync(string username);
         Task<bool> UpdatePasswordAsync(string username, string newPassword);
+        Task<User> GetUserByActivationTokenAsync(string token);
     }
 }
 
