@@ -1,4 +1,7 @@
-﻿@using SocialMedia_App.Core.Application.ViewModels.User
+﻿@using SocialMedia_App.Core.Application.ViewModels.Home
+@using SocialMedia_App.Core.Application.ViewModels.User
+@model HomeViewModel
+
 @inject IHttpContextAccessor httpContext;
 @using Microsoft.AspNetCore.Http;
 @using SocialMedia_App.Core.Application.Helpers;
@@ -32,4 +35,90 @@
 <div class="row">
     <h4 class="mt-2 text-center text-primary"> Hola, @User.UserName.</h4>
     <h6 class="mt-2"> Tu feed</h6>
+
+    @* formulario para crear publicaciones *@
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="NewPost_Content">Contenido:</label>
+                    <textarea class="form-control" id="NewPost_Content" asp-for="NewPost.Content" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="NewPost_Image">Subir imagen:</label>
+                    <input type="file" class="form-control-file" id="NewPost_Image" asp-for="NewPost.Image">
+                </div>
+                <div class="form-group">
+                    <label for="NewPost_YouTubeLink">Enlace de YouTube:</label>
+                    <input type="text" class="form-control" id="NewPost_YouTubeLink" asp-for="NewPost.YouTubeLink">
+                </div>
+                <button type="submit" class="btn btn-primary">Crear publicación</button>
+            </form>
+        </div>
+    </div>
+
+    @* listado de publicaciones y sus comentarios *@
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            @if (Model == null || Model.Posts.Count == 0)
+            {
+                <p>No hay publicaciones disponibles.</p>
+            }
+            else
+            {
+                @foreach (var post in Model.Posts)
+                {
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <img src="@post.UserImageUrl" class="rounded-circle" width="40" height="40" alt="Foto de perfil">
+                                <span class="ml-2">@post.UserName</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p>@post.Content</p>
+                            @if (!string.IsNullOrEmpty(post.PostImageUrl))
+                            {
+                                <img src="@post.PostImageUrl" class="img-fluid" alt="Imagen de la publicación">
+                            }
+                            @if (!string.IsNullOrEmpty(post.YouTubeLink))
+                            {
+                                <div class="embed-responsive embed-responsive-16by9 mt-2">
+                                    <iframe class="embed-responsive-item" src="@post.YouTubeLink" allowfullscreen></iframe>
+                                </div>
+                            }
+                        </div>
+                        <div class="card-footer">
+                            <button type="button" class="btn btn-sm btn-primary">Responder</button>
+                            <button type="button" class="btn btn-sm btn-danger">Modificar</button>
+                            <a asp-controller="Post" asp-action="Delete" class="btn btn-sm btn-warning">Eliminar</a>
+                        </div>
+                    </div>
+
+                    @if (post.Comments != null && post.Comments.Any())
+                    {
+                        foreach (var comentario in post.Comments)
+                        {
+                            <div class="card mt-3 ml-4">
+                                <div class="card-header">
+                                    <div class="d-flex align-items-center">
+                                        <img src="@comentario.UserImageUrl" class="rounded-circle" width="30" height="30" alt="Foto de perfil">
+                                        <span class="ml-2">@comentario.UserName</span>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <p>@comentario.Content</p>
+                                </div>
+                                <div class="card-footer">
+                                    <button type="button" class="btn btn-sm btn-primary">Responder</button>
+                                    <button type="button" class="btn btn-sm btn-warning">Eliminar</button>
+                                </div>
+                            </div>
+                        }
+                    }
+                }
+            }
+        </div>
+    </div>
+
 </div>

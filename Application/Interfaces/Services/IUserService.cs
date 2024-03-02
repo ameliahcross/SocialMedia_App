@@ -13,7 +13,7 @@ namespace SocialMedia_App.Core.Application.Interfaces.Services
         Task<UserViewModel> GetByUsername(string username);
         string GenerateSecurePassword(int length);
         Task<UserViewModel> GetUserByActivationToken(string token);
-        Task ActivateUser(UserViewModel user);
+        Task ActivateUser(string activationToken);
     }
 }
 

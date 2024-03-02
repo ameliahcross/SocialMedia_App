@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using SocialMedia_App.Core.Application.Interfaces.Services;
-using SocialMedia_App.Core.Application.Services;
 using SocialMedia_App.Core.Application.ViewModels.User;
 using SocialMedia_App.Middlewares;
-using SocialMedia_App.Models;
-using System.Diagnostics;
+using SocialMedia_App.Core.Application.Helpers;
+using SocialMedia_App.Core.Application.ViewModels.Home;
+using SocialMedia_App.Core.Application.ViewModels.Post;
+
 
 namespace SocialMedia_App.Controllers
 {
@@ -21,15 +23,25 @@ namespace SocialMedia_App.Controllers
             _emailService = emailService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             if (!_validateUserSession.HasUser())
             {
-                return RedirectToRoute(new { controller = "User", action = "Register" });
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
 
-            return View();
+            var userVm = HttpContext.Session.Get<UserViewModel>("user");
+            var posts = await _postService.GetAllPostByUserIdWithIncludeAsync(userVm.Id);
+
+            var homeViewModel = new HomeViewModel
+            {
+                Posts = posts,
+                NewPost = new SavePostViewModel()
+            };
+
+            return View(homeViewModel);
         }
+
 
 
     }

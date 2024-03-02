@@ -35,7 +35,7 @@ namespace WebApp.SocialMedia_App.Controllers
 
             if (userToActivate != null)
             {
-                await _userService.ActivateUser(userToActivate);
+                await _userService.ActivateUser(token);
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
             else
