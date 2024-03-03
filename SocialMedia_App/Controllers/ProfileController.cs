@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using SocialMedia_App.Core.Application.Helpers;
 using SocialMedia_App.Core.Application.Interfaces.Services;
 using SocialMedia_App.Core.Application.ViewModels.User;
 using SocialMedia_App.Middlewares;
@@ -40,20 +41,30 @@ namespace SocialMedia_App.Controllers
             return View("Index", editUserViewModel);
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(EditUserViewModel vm)
-        //{
-        //    if (!_validateUserSession.HasUser())
-        //    {
-        //        return RedirectToRoute(new { controller = "Login", action = "Index" });
-        //    }
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditUserViewModel vm)
+        {
+            if (!_validateUserSession.HasUser())
+            {
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
+            if (!ModelState.IsValid)
+            {
+                return View("Index",vm);
+            }
+            var currentUser = await _userService.GetByIdSaveViewModel(vm.Id);
+            _mapper.Map(vm, currentUser);
 
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(vm);
-        //    }
+            // encriptación de contraseña SI el usuario digitó una nueva
+            if (!string.IsNullOrEmpty(vm.Password))
+            {
+                currentUser.Password = PasswordEncryption.ComputeSha256Hash(vm.Password);
+            }
 
-
-        //}
+            await _userService.Update(_mapper.Map<SaveUserViewModel>(currentUser), vm.Id);
+            TempData["ProfileModified"] = "Ha modificado los datos de su perfil.";
+            var updatedViewModel = _mapper.Map<EditUserViewModel>(currentUser);
+            return View("Index", updatedViewModel);
+        }
     }
 }

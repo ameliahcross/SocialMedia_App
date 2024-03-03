@@ -9,20 +9,20 @@
 }
 
 @section Sidebar {
-    <div class="col-md-3 col-xl-2 bg-dark sidebar vh-100">
+    <div class="col-md-2 col-xl-2 bg-dark sidebar vh-100">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a class="nav-link active text-white" asp-controller="Home" asp-action="Index" asp-route-id="@User.Id)">
+                <a class="nav-link active text-white" asp-controller="Home" asp-action="Index" asp-route-id="@User.Id">
                     <i class="fas fa-home"></i> Inicio
                 </a>
             </li>
             <li>
-                <a class="nav-link text-white" asp-controller="Friendship" asp-action="Index" asp-route-id="@User.Id)">
+                <a class="nav-link text-white" asp-controller="Friendship" asp-action="Index" asp-route-id="@User.Id">
                     <i class="fas fa-user-friends"></i> Amigos
                 </a>
             </li>
             <li>
-                <a class="nav-link text-white" aria-current="page" asp-controller="Profile" asp-action="Edit" asp-route-id="@User.Id)">
+                <a class="nav-link text-white" aria-current="page" asp-controller="Profile" asp-action="Edit" asp-route-id="@User.Id">
                     <i class="fas fa-user"></i> Mi Perfil
                 </a>
             </li>
@@ -32,7 +32,15 @@
 
 <div class="container-fluid mt-5">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-6">
+        @{
+            if (TempData["ProfileModified"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["ProfileModified"]
+                </div>
+            }
+        }
+        <div class="col-md-6 col-lg-8">
             <div class="card p-3 bg-primary bg-opacity-10 mb-5">
                 <div class="card-header bg-opacity-50 bg-primary">
                     <h3 class="text-center">Tu perfil</h3>
@@ -56,22 +64,24 @@
                             <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="col-6">
-                            <label asp-for="Phone" class="form-label">Telefono</label>
+                            <label asp-for="Phone" class="form-label">Telefono <small class="text-primary"> (Sin guiones)</small> </label>
                             <input asp-for="Phone" class="form-control">
-                            <small class="text-primary">Sin guiones</small>
                             <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-12">
+                            <label class="form-label text-primary"><b>Campos no obligatorios:</b></label>
+                        </div>
+                        <div class="col-md-4">
                             <label asp-for="ImageUrl" class="form-label">Foto de perfil</label>
                             <input asp-for="ImageUrl" class="form-control">
                             <span asp-validation-for="ImageUrl" class="text-danger"></span>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <label asp-for="Password" class="form-label">Contraseña</label>
                             <input asp-for="Password" class="form-control">
-                            <span asp-validation-for="Password" class="text-danger"></span>
+                            <san asp-validation-for="Password" class="text-danger"></span>
                         </div>
-                        <div class="col-6">
+                        <div class="col-4">
                             <label asp-for="ConfirmPassword" class="form-label">Confirmar contraseña</label>
                             <input asp-for="ConfirmPassword" class="form-control">
                             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
