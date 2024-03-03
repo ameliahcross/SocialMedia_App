@@ -43,11 +43,13 @@ namespace SocialMedia_App.Core.Application.Services
         public override async Task<SaveUserViewModel> Add(SaveUserViewModel userToAdd)
         {
             var activationToken = Guid.NewGuid().ToString();
-            userToAdd.ActivationToken = activationToken;
-            userToAdd.IsActive = false;
+            var newUser = _mapper.Map<User>(userToAdd);
+
+            newUser.ActivationToken = activationToken;
+            newUser.IsActive = false;
 
             SaveUserViewModel saveUserViewModel = await base.Add(userToAdd);
-            var activationUrl = $"http://localhost:7145/User/Activate?token={activationToken}";
+            var activationUrl = $"https://localhost:7145/User/Activate?token={activationToken}";
 
             await _emailService.SendAsync(new EmailRequest
             {   
@@ -71,6 +73,12 @@ namespace SocialMedia_App.Core.Application.Services
             }
 
             UserViewModel userVm = _mapper.Map<UserViewModel>(user);
+
+            if (!user.IsActive)
+            {
+                userVm.IsActive = false;
+            }
+
             return userVm;
         }
 

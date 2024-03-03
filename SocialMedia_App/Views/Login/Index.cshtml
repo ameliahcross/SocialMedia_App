@@ -27,6 +27,18 @@
 
 <div class="container mt-5">
     <div class="row justify-content-center">
+        @{
+            if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @TempData["SuccessMessage"]
+                </div>
+                <div class="alert alert-success" role="alert">
+                    A simple success alert—check it out!
+                </div>
+            }
+        }
+
         <div class="col-md-5">
             <div class="card p-3 bg-primary bg-opacity-10 mb-5">
                 <div class="card-header bg-opacity-50 bg-primary">
@@ -52,3 +64,5 @@
         </div>
     </div>
 </div>
+
+

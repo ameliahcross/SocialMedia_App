@@ -30,17 +30,15 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
 
         [Required(ErrorMessage = "Debe ingresar un teléfono")]
         [DataType(DataType.PhoneNumber)]
-        [RegularExpression(@"^(\+?1-)?(809|829|849)-\d{3}-\d{4}$", 
+        [RegularExpression(@"^(\+?1)?(809|829|849)\d{3}\d{4}$", 
             ErrorMessage = "Debe ingresar un número de teléfono válido de República Dominicana")]
         public string Phone { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string? ImageUrl { get; set; }
 
-        public IFormFile File { get; set; }
+        public IFormFile? File { get; set; }
 
         public bool IsActive { get; set; }
-
-        public string ActivationToken { get; set; }
     }
 }
 

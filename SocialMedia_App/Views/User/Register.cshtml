@@ -52,12 +52,18 @@
                         <div class="col-6">
                             <label asp-for="Phone" class="form-label">Telefono</label>
                             <input asp-for="Phone" class="form-control">
+                            <small class="text-primary">Sin guiones</small>
                             <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
                         <div class="col-md-6">
                             <label asp-for="File" class="form-label">Foto de perfil</label>
                             <input asp-for="File" type="image" class="form-control">
                             <span asp-validation-for="File" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ImageUrl" class="form-label">URL de foto de perfil</label>
+                            <input asp-for="ImageUrl" class="form-control">
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
                         </div>
                         <div class="col-md-6">
                             <label asp-for="UserName" class="form-label">Nombre de usuario</label>

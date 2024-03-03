@@ -24,19 +24,20 @@ namespace WebApp.SocialMedia_App.Controllers
             _emailService = emailService;
         }
 
+        //public IActionResult Index()
+        //{
+        //    return RedirectToRoute(new { controller = "Login", action = "Index" });
+        //}
+
         public async Task<IActionResult> Activate(string token)
         {
-            if (!_validateUserSession.HasUser())
-            {
-                return View("Register");
-            }
-
             var userToActivate = await _userService.GetUserByActivationToken(token);
 
             if (userToActivate != null)
             {
                 await _userService.ActivateUser(token);
-                return RedirectToRoute(new { controller = "Login", action = "Index" });
+                TempData["SuccessMessage"] = "Su cuenta ha sido activada exitosamente. Ahora puede iniciar sesión.";
+                return RedirectToAction("Index", "Login");
             }
             else
             {
@@ -56,16 +57,23 @@ namespace WebApp.SocialMedia_App.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(SaveUserViewModel vm)
         {
-            var isUsernameValid = await _userService.UserExists(vm.UserName);
-            if (!isUsernameValid)
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors);
+                foreach (var error in errors)
+                {
+                    System.Diagnostics.Debug.WriteLine(error.ErrorMessage);
+                }
+                return View(vm);
+            }
+
+            var isUsernameTaken = await _userService.UserExists(vm.UserName);
+            if (isUsernameTaken)
             {
                 ModelState.AddModelError("UserName", "El nombre de usuario ya existe.");
                 return View(vm);
             }
-            if (!ModelState.IsValid)
-            {
-                return View(vm);
-            }
+            
             if (_validateUserSession.HasUser())
             {
                 return RedirectToRoute(new { controller = "Home", action = "Index" });

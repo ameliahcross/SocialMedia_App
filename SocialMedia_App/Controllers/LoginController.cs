@@ -19,7 +19,7 @@ namespace SocialMedia_App.Controllers
             _validateUserSession = validateUserSession;
         }
 
-        // muestra formulario de login
+        // muestra formulario de login si no hay sesión
         public IActionResult Index()
         {
             if (_validateUserSession.HasUser())
@@ -39,15 +39,22 @@ namespace SocialMedia_App.Controllers
             }
 
             UserViewModel userVm = await _userService.Login(vm);
-            if (userVm != null)
+
+            if (userVm == null)
             {
-                // guarda la información del usuario loggueado
-                HttpContext.Session.Set<UserViewModel>("user", userVm);
-                return RedirectToAction("Index", "Home");
+                ModelState.AddModelError("userValidation", "Datos de acceso incorrectos");
+                return View(vm);
             }
 
-            ModelState.AddModelError("userValidation", "Datos de acceso incorrectos");
-            return View(vm);
+            if (!userVm.IsActive)
+            {
+                ModelState.AddModelError("userValidation", "La cuenta del usuario no está activa. Por favor, revise su correo electrónico para activarla.");
+                return View(vm);
+            }
+
+            // guarda la información del usuario loggueado
+            HttpContext.Session.Set<UserViewModel>("user", userVm);
+            return RedirectToAction("Index", "Home");
         }
 
         // logout
