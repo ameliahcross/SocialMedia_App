@@ -48,18 +48,49 @@ namespace SocialMedia_App.Core.Application.Services
             newUser.ActivationToken = activationToken;
             newUser.IsActive = false;
 
-            SaveUserViewModel saveUserViewModel = await base.Add(userToAdd);
+            await _userRepository.AddAsync(newUser);
+            SaveUserViewModel saveUserViewModel = _mapper.Map<SaveUserViewModel>(newUser);
             var activationUrl = $"https://localhost:7145/User/Activate?token={activationToken}";
 
-            await _emailService.SendAsync(new EmailRequest
-            {   
-                To = saveUserViewModel.Email,
-                From = _emailService.MailSettings.EmailFrom,
-                Body = $"Hola, {saveUserViewModel.UserName}, por favor activa tu cuenta haciendo click aquí: {activationUrl}",
-                Subject = "Bienvenido(a). Activa tu cuenta en My Social Media."
-            });
+            try
+            {
+                await _emailService.SendAsync(new EmailRequest
+                {
+                    To = saveUserViewModel.Email,
+                    From = _emailService.MailSettings.EmailFrom,
+                    Body = $"Hola, {saveUserViewModel.UserName}, activa tu cuenta haciendo click aquí: {activationUrl}",
+                    Subject = "Bienvenido(a). Activa tu cuenta en My Social Media."
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error al enviar el correo: {ex.Message}");
+            }
 
             return saveUserViewModel;
+        }
+
+        // para obtener usuario por token
+        public async Task<UserViewModel> GetUserByActivationToken(string token)
+        {
+            var user = await _userRepository.GetUserByActivationTokenAsync(token);
+            if (user != null)
+            {
+                return _mapper.Map<UserViewModel>(user);
+            }
+            return null;
+        }
+
+        // para activar usuario
+        public async Task ActivateUser(string activationToken)
+        {
+            var user = await _userRepository.GetUserByActivationTokenAsync(activationToken);
+            if (user != null)
+            {
+                user.IsActive = true;
+                user.ActivationToken = null;
+                await _userRepository.UpdateAsync(user, user.Id);
+            }
         }
 
         // para iniciar sesion
@@ -119,28 +150,7 @@ namespace SocialMedia_App.Core.Application.Services
             return await _userRepository.UpdatePasswordAsync(username, newPassword);
         }
 
-        // para obtener usuario por token
-        public async Task<UserViewModel> GetUserByActivationToken(string token)
-        {
-            var user = await _userRepository.GetUserByActivationTokenAsync(token);
-            if (user != null)
-            {
-                return _mapper.Map<UserViewModel>(user);
-            }
-            return null;
-        }
-
-        // para activar usuario
-        public async Task ActivateUser(string activationToken)
-        {
-            var user = await _userRepository.GetUserByActivationTokenAsync(activationToken);
-            if (user != null)
-            {
-                user.IsActive = true;
-                user.ActivationToken = null;
-                await _userRepository.UpdateAsync(user, user.Id);
-            }
-        }
+      
 
 
     }

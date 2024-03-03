@@ -18,5 +18,11 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    min-height: 100%;
+}
+
+.sidebar {
+    min-height: 100%;
+    flex-shrink: 0;
 }

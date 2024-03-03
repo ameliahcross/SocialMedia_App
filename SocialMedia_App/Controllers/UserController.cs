@@ -7,7 +7,6 @@ using SocialMedia_App.Middlewares;
 using SocialMedia_App.Core.Application.DTOs.Email;
 
 //registro de usuarios, restablecimiento de contraseñas activación de cuentas
-//ademas de la edición del perfil de usuario
 
 namespace WebApp.SocialMedia_App.Controllers
 {
@@ -93,7 +92,7 @@ namespace WebApp.SocialMedia_App.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ResetPassword(LoginViewModel vm)
+        public async Task<IActionResult> ResetPassword(ResetPassViewModel vm)
         {
             if (!ModelState.IsValid)
             {
@@ -115,7 +114,7 @@ namespace WebApp.SocialMedia_App.Controllers
                     Body = $"Su nueva contraseña es: {newPassword}"
                 });
 
-                TempData["ResetPasswordSuccess"] = "Se ha enviado la nueva contraseña a su correo electrónico.";
+                TempData["PasswordReset"] = "Inicie sesión con la nueva contraseña enviada a su correo electrónico";
                 return RedirectToAction("Index", "Login");
             }
             else

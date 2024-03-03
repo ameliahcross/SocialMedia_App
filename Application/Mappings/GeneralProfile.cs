@@ -23,7 +23,6 @@ namespace SocialMedia_App.Core.Application.Mappings
             CreateMap<User, EditUserViewModel>()
                 .ForMember(dest => dest.Password, opt => opt.Ignore())
                 .ForMember(dest => dest.ConfirmPassword, opt => opt.Ignore())
-                .ForMember(dest => dest.File, opt => opt.Ignore())
                 .ReverseMap()
                 .ForMember(dest => dest.Password, opt => opt.Ignore())
                 .ForMember(dest => dest.ImageUrl, opt => opt.Ignore())

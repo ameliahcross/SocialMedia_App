@@ -14,17 +14,17 @@
     <div class="col-md-3 col-xl-2 bg-dark sidebar vh-100">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a class="nav-link active text-white" aria-current="page" href="@Url.Action("Index", "Home")">
+                <a class="nav-link active text-white" aria-current="page" asp-controller="Home" asp-action="Index" asp-route-id="@User.Id)">
                     <i class="fas fa-home"></i> Inicio
                 </a>
             </li>
             <li>
-                <a class="nav-link text-white" href="@Url.Action("Index", "Friendship")">
+                <a class="nav-link text-white" asp-controller="Friendship" asp-action="Index" asp-route-id="@User.Id)">
                     <i class="fas fa-user-friends"></i> Amigos
                 </a>
             </li>
             <li>
-                <a class="nav-link text-white" href="@Url.Action("Index", "User")">
+                <a class="nav-link text-white" asp-controller="Profile" asp-action="Edit" asp-route-id="@User.Id)">
                     <i class="fas fa-user"></i> Mi Perfil
                 </a>
             </li>
@@ -34,25 +34,26 @@
 
 <div class="row">
     <h4 class="mt-2 text-center text-primary"> Hola, @User.UserName.</h4>
-    <h6 class="mt-2"> Tu feed</h6>
+    <h3 class="mt-2 text-center"> Tu feed</h3>
 
     @* formulario para crear publicaciones *@
-    <div class="row mt-3">
-        <div class="col-md-12">
+    <div class="row mt-3 justify-content-center">
+        <div class="col-md-5">
             <form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="NewPost_Content">Contenido:</label>
-                    <textarea class="form-control" id="NewPost_Content" asp-for="NewPost.Content" rows="3"></textarea>
+                <div class="form-group mt-2">
+                    <label for="NewPost_Content">Comparte algo de ti:</label>
+                    <textarea class="form-control" asp-for="NewPost.Content" rows="3"></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="NewPost_Image">Subir imagen:</label>
-                    <input type="file" class="form-control-file" id="NewPost_Image" asp-for="NewPost.PostImageUrl">
+                <div class="form-group mt-2">
+                    <label for="NewPost_Image">O carga una imagen</label>
+                    <input type="file" class="form-control-file" asp-for="NewPost.PostImageUrl">
                 </div>
-                <div class="form-group">
-                    <label for="NewPost_YouTubeLink">Enlace de YouTube:</label>
-                    <input type="text" class="form-control" id="NewPost_YouTubeLink" asp-for="NewPost.YouTubeLink">
+                <div class="form-group mt-2">
+                    <label for="NewPost_YouTubeLink">También puedes compartir un link de YouTube:</label>
+                    <input type="text" class="form-control" asp-for="NewPost.YouTubeLink">
                 </div>
-                <button type="submit" class="btn btn-primary">Crear publicación</button>
+                <input asp-for="Id" type="hidden">
+                <button type="submit" class="btn btn-primary offset-10 mt-3">Publicar</button>
             </form>
         </div>
     </div>

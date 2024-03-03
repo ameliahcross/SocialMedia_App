@@ -9,6 +9,7 @@ namespace SocialMedia_App.Core.Application.ViewModels.Home
 {
     public class HomeViewModel
     {
+        public string Id { get; set; }   
         public List<PostViewModel> Posts { get; set; }
         public SavePostViewModel NewPost { get; set; }
 

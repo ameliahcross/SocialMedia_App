@@ -1,7 +1,10 @@
 ﻿@using SocialMedia_App.Core.Application.ViewModels.User
 @model EditUserViewModel
-
+@inject IHttpContextAccessor httpContext;
+@using Microsoft.AspNetCore.Http;
+@using SocialMedia_App.Core.Application.Helpers;
 @{
+    UserViewModel User = httpContext.HttpContext.Session.Get<UserViewModel>("user");
     ViewData["Title"] = "Mi perfil";
 }
 
@@ -9,17 +12,17 @@
     <div class="col-md-3 col-xl-2 bg-dark sidebar vh-100">
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a class="nav-link active text-white" href="@Url.Action("Index", "Home")">
+                <a class="nav-link active text-white" asp-controller="Home" asp-action="Index" asp-route-id="@User.Id)">
                     <i class="fas fa-home"></i> Inicio
                 </a>
             </li>
             <li>
-                <a class="nav-link text-white" href="@Url.Action("Index", "Friendship")">
+                <a class="nav-link text-white" asp-controller="Friendship" asp-action="Index" asp-route-id="@User.Id)">
                     <i class="fas fa-user-friends"></i> Amigos
                 </a>
             </li>
             <li>
-                <a class="nav-link text-white" aria-current="page" href="@Url.Action("Index", "Profile")">
+                <a class="nav-link text-white" aria-current="page" asp-controller="Profile" asp-action="Edit" asp-route-id="@User.Id)">
                     <i class="fas fa-user"></i> Mi Perfil
                 </a>
             </li>
@@ -27,61 +30,60 @@
     </div>
 }
 
-<div class="row">
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-7">
-                <div class="card p-3 bg-primary bg-opacity-10 mb-5">
-                    <div class="card-header bg-opacity-50 bg-primary">
-                        <h3 class="text-center">Tu perfil.</h3>
-                    </div>
-                    <div class="card-body">
-                        <form asp-controller="User" asp-action="Edit" method="post" enctype="multipart/form-data">
-                            <div class="mb-3">
-                                <label asp-for="Name" class="form-label">Nombre</label>
-                                <input asp-for="Name" class="form-control">
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label asp-for="LastName" class="form-label">Apellido</label>
-                                <input asp-for="LastName" class="form-control">
-                                <span asp-validation-for="LastName" class="text-danger"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label asp-for="Phone" class="form-label">Telefono</label>
-                                <input asp-for="Phone" class="form-control">
-                                <span asp-validation-for="Phone" class="text-danger"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label asp-for="Email" class="form-label">Email</label>
-                                <input asp-for="Email" class="form-control">
-                                <span asp-validation-for="Email" class="text-danger"></span>
-                            </div>
-                            <p class="text-primary">Opcional: </p>
-                            @*  campo para subir la foto de perfil *@
-                            <div class="mb-3">
-                                <label asp-for="File" class="form-label">Foto de perfil</label>
-                                <input asp-for="File" type="image" class="form-control">
-                                <span asp-validation-for="File" class="text-danger"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label asp-for="Password" class="form-label">Contraseña</label>
-                                <input asp-for="Password" class="form-control">
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
-                            <div class="mb-3">
-                                <label asp-for="ConfirmPassword" class="form-label">Confirmar contraseña</label>
-                                <input asp-for="ConfirmPassword" class="form-control">
-                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                            </div>
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-6">
+            <div class="card p-3 bg-primary bg-opacity-10 mb-5">
+                <div class="card-header bg-opacity-50 bg-primary">
+                    <h3 class="text-center">Tu perfil</h3>
+                </div>
+                <div class="card-body">
+                    @Html.ValidationSummary(false, " ", new { @class = "text-danger" })
+                    <form class="row g-3" asp-controller="Profile" asp-action="Edit" method="post" enctype="multipart/form-data">
+                        <div class="col-md-6">
+                            <label asp-for="Name" class="form-label">Nombre</label>
+                            <input asp-for="Name" class="form-control">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="LastName" class="form-label">Apellido</label>
+                            <input asp-for="LastName" class="form-control">
+                            <span asp-validation-for="LastName" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="Email" class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="Phone" class="form-label">Telefono</label>
+                            <input asp-for="Phone" class="form-control">
+                            <small class="text-primary">Sin guiones</small>
+                            <span asp-validation-for="Phone" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="ImageUrl" class="form-label">Foto de perfil</label>
+                            <input asp-for="ImageUrl" class="form-control">
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6">
+                            <label asp-for="Password" class="form-label">Contraseña</label>
+                            <input asp-for="Password" class="form-control">
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+                        <div class="col-6">
+                            <label asp-for="ConfirmPassword" class="form-label">Confirmar contraseña</label>
+                            <input asp-for="ConfirmPassword" class="form-control">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <div class="col-12">
                             <input type="hidden" asp-for="Id">
-                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="submit" class="btn btn-primary">Guardar cambios</button>
                             <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Volver atrás</a>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-
 </div>

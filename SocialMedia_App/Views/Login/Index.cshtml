@@ -4,7 +4,7 @@
     ViewData["Title"] = "Login";
 }
 @section Sidebar {
-    <div class="col-md-3 col-xl-2 bg-dark sidebar vh-100">
+    <div class="col-md-2 col-sm-3 col-xl-2 bg-dark sidebar vh-100">
         <ul class="nav nav-pills flex-column mb-auto">
             @*   <li class="nav-item">
         <a class="nav-link active text-white" aria-current="page" href="@Url.Action("Index", "Home")">
@@ -33,13 +33,17 @@
                 <div class="alert alert-success" role="alert">
                     @TempData["SuccessMessage"]
                 </div>
+            }
+            if (TempData["PasswordReset"] != null)
+            {
                 <div class="alert alert-success" role="alert">
-                    A simple success alert—check it out!
+                    @TempData["PasswordReset"]
                 </div>
             }
+               
         }
 
-        <div class="col-md-5">
+        <div class="col-md-8 col-sm-12 col-lg-6">
             <div class="card p-3 bg-primary bg-opacity-10 mb-5">
                 <div class="card-header bg-opacity-50 bg-primary">
                     <h3 class="text-center">@ViewData["Title"]</h3>
@@ -55,9 +59,11 @@
                             <label asp-for="Password" class="form-label">Password</label>
                             <input asp-for="Password" class="form-control">
                         </div>
-                        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                        <a asp-controller="User" asp-action="Register" class="btn btn-secondary">Registrarme</a>
-                        <a asp-controller="User" asp-action="ResetPassword" class="btn btn-info">Reestablecer contraseña</a>
+                        <button type="submit" class="btn btn-primary mb-2">Iniciar sesión</button>
+                        <a asp-controller="User" asp-action="Register" class="btn btn-secondary mb-2">Registrarme</a>
+                        <div class="mt-3">
+                            <a asp-controller="User" asp-action="ResetPassword" class="text-dark">Olvidé mi contraseña</a>
+                        </div>
                     </form>
                 </div>
             </div>
