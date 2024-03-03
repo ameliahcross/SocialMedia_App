@@ -19,10 +19,12 @@ namespace SocialMedia_App.Controllers
             _validateUserSession = validateUserSession;
             _mapper = mapper;
         }
+
         public IActionResult Index()
         {
             if (!_validateUserSession.HasUser())
             {
+                TempData["NoAccess"] = "No tiene permiso para acceder a esta página. Primero debe iniciar sesión.";
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
             return View();
@@ -32,6 +34,7 @@ namespace SocialMedia_App.Controllers
         {
             if (!_validateUserSession.HasUser())
             {
+                TempData["NoAccess"] = "No tiene permiso para acceder a esta página. Primero debe iniciar sesión.";
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
 

@@ -40,7 +40,12 @@
                     @TempData["PasswordReset"]
                 </div>
             }
-               
+            @if (TempData["NoAccess"] != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @TempData["NoAccess"]
+                </div>
+            }
         }
 
         <div class="col-md-8 col-sm-12 col-lg-6">

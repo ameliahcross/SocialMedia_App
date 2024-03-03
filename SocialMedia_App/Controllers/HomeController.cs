@@ -27,6 +27,7 @@ namespace SocialMedia_App.Controllers
         {
             if (!_validateUserSession.HasUser())
             {
+                TempData["NoAccess"] = "No tiene permiso para acceder a esta página. Primero debe iniciar sesión.";
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
 
