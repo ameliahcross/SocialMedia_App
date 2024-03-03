@@ -6,7 +6,8 @@ namespace SocialMedia_App.Core.Domain.Entities
     {
         public string Content { get; set; }
         public DateTime CreationDate { get; set; }
-        public byte[] Image { get; set; }
+        public string? ImageUrl { get; set; }
+
         public string YouTubeLink { get; set; }
 
         // Foreign key

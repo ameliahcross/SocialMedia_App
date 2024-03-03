@@ -80,86 +80,82 @@ namespace SocialMedia_App.Infrastructure.Persistence.Contexts
                 .HasOne(c => c.User)
                 .WithMany()
                 .HasForeignKey(c => c.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             // Comment con Comment(ParentComment)
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.ParentComment)
                 .WithMany(c => c.Replies)
-                .HasForeignKey(c => c.ParentCommentId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(c => c.ParentCommentId);
             #endregion
 
             #region property configurations
+                #region User
+                modelBuilder.Entity<User>(entity =>
+                {
+                    entity.Property(e => e.Name)
+                            .IsRequired()
+                            .HasMaxLength(100);
 
-            #region doctor
-            //modelBuilder.Entity<Doctor>(entity =>
-            //    {
-            //        entity.Property(d => d.FirstName).IsRequired();
-            //        entity.Property(d => d.LastName).IsRequired();
-            //        entity.Property(d => d.Email).IsRequired();
-            //        entity.Property(d => d.PhoneNumber).IsRequired();
-            //        entity.Property(d => d.IdentificationNumber).IsRequired();
-            //        entity.Property(d => d.Photo).IsRequired();
-            //    });
+                    entity.Property(e => e.LastName)
+                             .IsRequired()
+                             .HasMaxLength(100);
+
+                    entity.Property(e => e.Phone)
+                            .IsRequired()
+                            .HasMaxLength(15);
+
+                    entity.Property(e => e.ImageUrl);
+
+                    entity.Property(e => e.Email)
+                            .IsRequired()
+                            .HasMaxLength(100);
+
+                    entity.Property(e => e.UserName)
+                            .IsRequired()
+                            .HasMaxLength(50);
+
+                    entity.Property(e => e.Password)
+                            .IsRequired();
+
+                    entity.Property(e => e.IsActive)
+                            .IsRequired();
+
+                    entity.Property(e => e.ActivationToken);
+                });
+                 #endregion
+
+                #region Post
+            modelBuilder.Entity<Post>(entity =>
+            {
+                entity.Property(e => e.Content);
+
+                entity.Property(e => e.CreationDate);
+
+                entity.Property(e => e.ImageUrl);
+
+                entity.Property(e => e.YouTubeLink);
+
+            });
             #endregion
 
-            #region appointment
-            //modelBuilder.Entity<Appointment>(entity =>
-            //{
-            //    entity.Property(a => a.Date)
-            //            .IsRequired()
-            //            .HasColumnType("date")
-            //            .HasConversion(
-            //                d => d.ToDateTime(new TimeOnly()),
-            //                d => DateOnly.FromDateTime(d)
-            //            );
-            //    entity.Property(a => a.Time)
-            //            .IsRequired()
-            //            .HasColumnType("time")
-            //            .HasConversion(
-            //                  t => t.ToTimeSpan(),
-            //                  t => TimeOnly.FromTimeSpan(t)
-            //              ); ;
-            //    entity.Property(a => a.Reason).IsRequired();
-            //});
+                #region Friendship
+
             #endregion
 
-            #region Patient
-            //modelBuilder.Entity<Patient>(entity =>
-            //{
-            //    entity.Property(p => p.FirstName).IsRequired()
-            //                                     .HasMaxLength(50);
-            //    entity.Property(p => p.LastName).IsRequired();
-            //    entity.Property(p => p.PhoneNumber).IsRequired();
-            //    entity.Property(p => p.Address).IsRequired();
-            //    entity.Property(p => p.IdentificationNumber).IsRequired();
-            //    entity.Property(p => p.DateOfBirth)
-            //            .IsRequired()
-            //            .HasConversion(
-            //                d => d.ToDateTime(new TimeOnly()),
-            //                d => DateOnly.FromDateTime(d)
-            //            );
-            //    entity.Property(p => p.IsSmoker).IsRequired();
-            //    entity.Property(p => p.HasAllergies).IsRequired();
-            //    entity.Property(p => p.Photo).IsRequired();
-            //});
-            #endregion
+                #region Comment
+                modelBuilder.Entity<Comment>(entity =>
+                {
+                    entity.Property(e => e.Content)
+                            .IsRequired();
 
-            #region user
-            //modelBuilder.Entity<User>(entity =>
-            //{
-            //    entity.Property(u => u.Username).IsRequired()
-            //            .HasMaxLength(100);
-            //    entity.Property(u => u.Password).IsRequired();
-            //    entity.Property(u => u.Email).IsRequired();
-            //    entity.Property(u => u.Name).IsRequired()
-            //            .HasMaxLength(100);
-            //    entity.Property(u => u.LastName).IsRequired();
-            //    entity.Property(u => u.Role).IsRequired();
-            //});
-            #endregion
+                    entity.Property(e => e.CreationDate)
+                            .IsRequired();
 
+                    entity.Property(e => e.ParentCommentId)
+                            .IsRequired(false);
+                });
+                #endregion
             #endregion
         }
 

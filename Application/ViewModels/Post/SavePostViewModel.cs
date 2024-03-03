@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +11,8 @@ namespace SocialMedia_App.Core.Application.ViewModels.Post
     {
         public int Id { get; set; }
         public string Content { get; set; }
-        public byte[] Image { get; set; }
-        public string PostImageUrl { get; set; }
+        public string? PostImageUrl { get; set; }
+        public IFormFile? File { get; set; }
         public string YouTubeLink { get; set; }
 
         public bool IsValid()
