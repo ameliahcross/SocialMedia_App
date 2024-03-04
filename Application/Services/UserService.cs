@@ -50,6 +50,7 @@ namespace SocialMedia_App.Core.Application.Services
 
             await _userRepository.AddAsync(newUser);
             SaveUserViewModel saveUserViewModel = _mapper.Map<SaveUserViewModel>(newUser);
+
             var activationUrl = $"https://localhost:7145/User/Activate?token={activationToken}";
 
             try
@@ -150,7 +151,17 @@ namespace SocialMedia_App.Core.Application.Services
             return await _userRepository.UpdatePasswordAsync(username, newPassword);
         }
 
-      
+        // para actualizar la imagen
+        public async Task UpdateImage(int userId, string imageUrl)
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user != null)
+            {
+                user.ImageUrl = imageUrl;
+                await _userRepository.UpdateJustImageAsync(user);
+            }
+        }
+
 
 
     }

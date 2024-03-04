@@ -32,33 +32,48 @@
     </div>
 }
 
-<div class="row">
-    <h4 class="mt-2 text-center text-primary"> Hola, @User.UserName.</h4>
-    <h3 class="mt-2 text-center"> Tu feed</h3>
+<h4 class="mt-2 text-center text-primary">Hola, @User.UserName.</h4>
 
-    @* formulario para crear publicaciones *@
-    <div class="row mt-3 justify-content-center">
-        <div class="col-md-5">
+<div class="container mt-5">
+    <div class="row align-items-center">
+        <div class="col-auto me-2">
+            <img src="@User.ImageUrl" alt="Foto de perfil" style="width:200px;height:auto;">
+        </div>
+        <div class="col-md-6 bg-opacity-10 bg-primary">
             <form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data">
-                <div class="form-group mt-2">
-                    <label for="NewPost_Content">Comparte algo de ti:</label>
-                    <textarea class="form-control" asp-for="NewPost.Content" rows="3"></textarea>
+                <div class="row">
+                    <!-- Campo de Compartir -->
+                    <div class="col-md-12">
+                        <div class="form-group mt-2">
+                            <label for="NewPost_Content">Comparte algo de ti:</label>
+                            <textarea class="form-control" asp-for="NewPost.Content" rows="2"></textarea>
+                        </div>
+                    </div>
+                    <!-- Campo de Imagen y YouTube Link lado a lado -->
+                    <div class="col-md-6">
+                        <div class="form-group mt-2">
+                            <label for="NewPost_Image"></label>
+                            <input asp-for="NewPost.File" class="form-control-file" asp-for="NewPost.PostImageUrl">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group mt-2">
+                            <label for="NewPost_YouTubeLink">Link de YouTube:</label>
+                            <input type="text" class="form-control" asp-for="NewPost.YouTubeLink">
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group mt-2">
-                    <label for="NewPost_Image">O carga una imagen</label>
-                    <input type="file" class="form-control-file" asp-for="NewPost.PostImageUrl">
-                </div>
-                <div class="form-group mt-2">
-                    <label for="NewPost_YouTubeLink">También puedes compartir un link de YouTube:</label>
-                    <input type="text" class="form-control" asp-for="NewPost.YouTubeLink">
-                </div>
-                <input asp-for="Id" type="hidden">
-                <button type="submit" class="btn btn-primary offset-10 mt-3">Publicar</button>
+                <button type="submit" class="btn btn-primary my-3 offset-12">Publicar</button>
             </form>
         </div>
     </div>
+</div>
+
+
 
     @* listado de publicaciones y sus comentarios *@
+<div class="row">
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             @if (Model == null || Model.Posts.Count == 0)

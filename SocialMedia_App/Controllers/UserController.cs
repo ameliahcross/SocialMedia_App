@@ -15,12 +15,14 @@ namespace WebApp.SocialMedia_App.Controllers
         private readonly IUserService _userService;
         private readonly ValidateUserSession _validateUserSession;
         private readonly IEmailService _emailService;
+        private readonly FileHelper _fileHelper;
 
-        public UserController(IUserService userService,ValidateUserSession validateUserSession, IEmailService emailService)
+        public UserController(IUserService userService,ValidateUserSession validateUserSession, IEmailService emailService, FileHelper fileHelper)
         {
             _userService = userService;
             _validateUserSession = validateUserSession;
             _emailService = emailService;
+            _fileHelper = fileHelper;   
         }
 
         //public IActionResult Index()
@@ -78,7 +80,14 @@ namespace WebApp.SocialMedia_App.Controllers
                 return RedirectToRoute(new { controller = "Home", action = "Index" });
             }
 
-            await _userService.Add(vm);
+            SaveUserViewModel userVm = await _userService.Add(vm);
+
+            if (vm.File != null && userVm.Id != 0)
+            {
+                string imageUrl = _fileHelper.UploadFile(vm.File, userVm.Id);
+                await _userService.UpdateImage(userVm.Id, imageUrl);
+            }
+
             return RedirectToRoute(new { controller = "Login", action = "Index" });
         }
 
@@ -123,6 +132,8 @@ namespace WebApp.SocialMedia_App.Controllers
                 return View(vm);
             }
         }
+
+      
 
     }
 }

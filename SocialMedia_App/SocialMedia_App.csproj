@@ -25,4 +25,9 @@
     <ProjectReference Include="..\SocialMedia_App.Infrastructure.Shared\SocialMedia_App.Infrastructure.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\Posts\" />
+    <Folder Include="wwwroot\Images\Users\" />
+  </ItemGroup>
+
 </Project>

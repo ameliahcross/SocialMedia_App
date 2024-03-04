@@ -9,6 +9,7 @@ namespace SocialMedia_App.Core.Application.Interfaces.Repositories
         Task<User> GetByUsernameAsync(string username);
         Task<bool> UpdatePasswordAsync(string username, string newPassword);
         Task<User> GetUserByActivationTokenAsync(string token);
+        Task UpdateJustImageAsync(User user);
     }
 }
 

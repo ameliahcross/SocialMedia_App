@@ -12,12 +12,15 @@ namespace SocialMedia_App.Controllers
         private readonly IUserService _userService;
         private readonly ValidateUserSession _validateUserSession;
         private readonly IMapper _mapper;
+        private readonly FileHelper _fileHelper;
 
-        public ProfileController(IUserService userService, ValidateUserSession validateUserSession, IMapper mapper)
+
+        public ProfileController(IUserService userService, ValidateUserSession validateUserSession, IMapper mapper , FileHelper fileHelper)
         {
             _userService = userService;
             _validateUserSession = validateUserSession;
             _mapper = mapper;
+            _fileHelper = fileHelper;
         }
 
         public IActionResult Index()

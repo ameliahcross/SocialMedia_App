@@ -36,7 +36,8 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
 
         public string? ImageUrl { get; set; }
 
-        public IFormFile? File { get; set; }
+        [DataType(DataType.Upload)]
+        public IFormFile File { get; set; }
 
         public bool IsActive { get; set; }
     }

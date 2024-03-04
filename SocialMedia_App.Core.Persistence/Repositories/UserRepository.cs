@@ -56,7 +56,17 @@ namespace SocialMedia_App.Infrastructure.Persistence.Repositories
                 .FirstOrDefaultAsync();
         }
 
-   
+        public async Task UpdateJustImageAsync(User user)
+        {
+            var userToUpdate = await _dbContext.Users.FindAsync(user.Id);
+            if (userToUpdate != null)
+            {
+                userToUpdate.ImageUrl = user.ImageUrl;
+                _dbContext.Users.Update(userToUpdate);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
+
 
     }
 }

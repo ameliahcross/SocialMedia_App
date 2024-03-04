@@ -14,6 +14,7 @@ namespace SocialMedia_App.Core.Application.Interfaces.Services
         string GenerateSecurePassword(int length);
         Task<UserViewModel> GetUserByActivationToken(string token);
         Task ActivateUser(string activationToken);
+        Task UpdateImage(int userId, string imageUrl);
     }
 }
 
