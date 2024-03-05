@@ -40,27 +40,31 @@
             <img src="@User.ImageUrl" style="width:180px;height:auto;" alt="Tu foto de perfil" class="rounded-circle" />
         </div>
         <div class="col-md-6 bg-opacity-10 bg-primary">
-            <form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data">
+            @Html.ValidationSummary(false, " ", new { @class = "text-danger" })
+            <form asp-controller="Home" asp-action="Create" method="post" enctype="multipart/form-data">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-group mt-2">
-                            <label for="NewPost_Content">Comparte algo:</label>
-                            <textarea class="form-control" asp-for="NewPost.Content" rows="2"></textarea>
+                            <label asp-for="NewPost.Content" class="form-label">Comparte algo:</label>
+                            <textarea asp-for="NewPost.Content" class="form-control" rows="2"></textarea>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mt-2">
-                            <label for="NewPost_Image"></label>
-                            <input asp-for="NewPost.File" class="form-control-file" asp-for="NewPost.PostImageUrl">
+                            <label asp-for="NewPost.File" class="form-label"></label>
+                            <input asp-for="NewPost.File" class="form-control-file">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mt-2">
-                            <label for="NewPost_YouTubeLink">Link de YouTube:</label>
-                            <input type="text" class="form-control" asp-for="NewPost.YouTubeLink">
+                            <label asp-for="NewPost.YouTubeLink" class="form-label">Link de YouTube:</label>
+                            <input asp-for ="NewPost.YouTubeLink" type="text" class="form-control">
                         </div>
                     </div>
                 </div>
+                <input type="hidden" asp-for="NewPost.Id">
+                @* <input type="hidden" asp-for="@User.Id"> *@
+                <input asp-for="NewPost.CreationDate" type="hidden">
                 <button type="submit" class="btn btn-primary my-3 offset-12">Publicar</button>
             </form>
         </div>
@@ -71,68 +75,77 @@
 
     @* listado de publicaciones y sus comentarios *@
 <div class="row">
-
     <div class="container mt-5">
         <div class="row justify-content-center">
-            @if (Model == null || Model.Posts.Count == 0)
-            {
-                <p>No hay publicaciones disponibles.</p>
-            }
-            else
-            {
-                @foreach (var post in Model.Posts)
+            <div class="col-md-6">
+                @if (Model == null || Model.Posts.Count == 0)
                 {
-                    <div class="card mt-3">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <img src="@post.UserImageUrl" class="rounded-circle" width="40" height="40" alt="Foto de perfil">
-                                <span class="ml-2">@post.UserName</span>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <p>@post.Content</p>
-                            @if (!string.IsNullOrEmpty(post.PostImageUrl))
-                            {
-                                <img src="@post.PostImageUrl" class="img-fluid" alt="Imagen de la publicación">
-                            }
-                            @if (!string.IsNullOrEmpty(post.YouTubeLink))
-                            {
-                                <div class="embed-responsive embed-responsive-16by9 mt-2">
-                                    <iframe class="embed-responsive-item" src="@post.YouTubeLink" allowfullscreen></iframe>
-                                </div>
-                            }
-                        </div>
-                        <div class="card-footer">
-                            <button type="button" class="btn btn-sm btn-primary">Responder</button>
-                            <button type="button" class="btn btn-sm btn-danger">Modificar</button>
-                            <a asp-controller="Post" asp-action="Delete" class="btn btn-sm btn-warning">Eliminar</a>
-                        </div>
-                    </div>
-
-                    @if (post.Comments != null && post.Comments.Any())
+                    <p>No hay publicaciones disponibles.</p>
+                }
+                else
+                {
+                    @foreach (var post in Model.Posts)
                     {
-                        foreach (var comentario in post.Comments)
+                        <div class="card col-md-12 card my-3">
+                            <div class="card-header d-flex">
+                                <div class="d-flex align-items-center col-md-4">
+                                    <img src="@post.UserImageUrl" class="rounded-circle" width="40" height="40" alt="Foto de perfil">
+                                    <span class="mx-2 fw-bold text-primary">@post.UserName</span>
+                                    <span class="mx-2 text-secondary col-12">@post.CreationDate</span>
+                                </div>
+                                <div class="d-flex justify-content-end align-items-center col-8">
+                                    <a asp-controller="Home" asp-action="Edit" asp-route-id="@post.Id" class="text-secondary mr-2">
+                                        <i class="fa-solid fa-pen-to-square mx-2"></i>
+                                    </a>
+                                    <a asp-controller="Home" asp-action="Delete" asp-route-id="@post.Id" class="text-danger">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                @if (!string.IsNullOrEmpty(post.Content))
+                                {
+                                    <p>@post.Content</p>
+                                }
+                                @if (!string.IsNullOrEmpty(post.PostImageUrl))
+                                {
+                                    <img src="@post.PostImageUrl" width="100" height="100" alt="Imagen de la publicación">
+                                }
+                                @if (!string.IsNullOrEmpty(post.YouTubeLink))
+                                {
+                                    <div class="embed-responsive embed-responsive-16by9 mt-2 style="width: 720px;">
+                                        <iframe class="embed-responsive-item" src="@post.YouTubeLink" allowfullscreen></iframe>
+                                    </div>
+                                }
+                            </div>
+                            @* <div class="d-flex justify-content-end my-2">
+                                <a asp-controller="Post" asp-action="Delete" class="btn btn-sm btn-primary mx-2">Responder</a>
+                            </div> *@
+                        </div>
+                        @if (post.Comments != null && post.Comments.Any())
                         {
-                            <div class="card mt-3 ml-4">
-                                <div class="card-header">
-                                    <div class="d-flex align-items-center">
-                                        <img src="@comentario.UserImageUrl" class="rounded-circle" width="30" height="30" alt="Foto de perfil">
-                                        <span class="ml-2">@comentario.UserName</span>
+                            foreach (var comentario in post.Comments)
+                            {
+                                <div class="card mt-3 ml-4 bg-opacity-10 bg-secondary">
+                                    <div class="card-header">
+                                        <div class="d-flex align-items-center">
+                                            <img src="@comentario.UserImageUrl" class="rounded-circle" width="30" height="30" alt="Foto de perfil">
+                                            <span class="ml-2 text-primary fw-bold">@comentario.UserName</span>
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <p class="text-secondary">@comentario.Content</p>
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="button" class="btn btn-sm btn-primary">Responder</button>
+                                        <button type="button" class="btn btn-sm btn-warning">Eliminar</button>
                                     </div>
                                 </div>
-                                <div class="card-body">
-                                    <p>@comentario.Content</p>
-                                </div>
-                                <div class="card-footer">
-                                    <button type="button" class="btn btn-sm btn-primary">Responder</button>
-                                    <button type="button" class="btn btn-sm btn-warning">Eliminar</button>
-                                </div>
-                            </div>
+                            }
                         }
                     }
                 }
-            }
+            </div>
         </div>
     </div>
-
 </div>

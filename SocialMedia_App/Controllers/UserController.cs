@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialMedia_App.Core.Application.Interfaces.Services;
-using SocialMedia_App.Core.Application.ViewModels.Login;
 using SocialMedia_App.Core.Application.ViewModels.User;
 using SocialMedia_App.Core.Application.Helpers;
 using SocialMedia_App.Middlewares;
@@ -17,7 +16,8 @@ namespace WebApp.SocialMedia_App.Controllers
         private readonly IEmailService _emailService;
         private readonly FileHelper _fileHelper;
 
-        public UserController(IUserService userService,ValidateUserSession validateUserSession, IEmailService emailService, FileHelper fileHelper)
+        public UserController(IUserService userService,ValidateUserSession validateUserSession,
+            IEmailService emailService, FileHelper fileHelper)
         {
             _userService = userService;
             _validateUserSession = validateUserSession;

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia_App.Core.Application.Helpers;
 using SocialMedia_App.Core.Application.Interfaces.Services;
+using SocialMedia_App.Core.Application.ViewModels.Home;
 using SocialMedia_App.Core.Application.ViewModels.Post;
 using SocialMedia_App.Middlewares;
 
@@ -10,12 +12,15 @@ namespace SocialMedia_App.Controllers
         private readonly IPostService _postService;
         private readonly ValidateUserSession _validateUserSession;
         private readonly IEmailService _emailService;
+        private readonly FileHelper _fileHelper;
 
-        public PostController(IPostService postService, ValidateUserSession validateUserSession, IEmailService emailService)
+        public PostController(IPostService postService, ValidateUserSession validateUserSession,
+            IEmailService emailService, FileHelper fileHelper)
         {
             _postService = postService;
             _validateUserSession = validateUserSession;
             _emailService = emailService;
+            _fileHelper = fileHelper;
         }
 
         public IActionResult Index()
@@ -23,18 +28,6 @@ namespace SocialMedia_App.Controllers
             return View();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(SavePostViewModel model)
-        {
-            if (!model.IsValid())
-            {
-                ModelState.AddModelError("", "No puedes crear publicaciones en blanco");
-                return RedirectToAction("Index", "Home", model);
-            }
-
-            await _postService.Add(model);
-            return RedirectToAction("Index", "Home");
-        }
-
+     
     }
 }

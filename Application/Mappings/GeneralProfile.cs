@@ -54,7 +54,6 @@ namespace SocialMedia_App.Core.Application.Mappings
                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
 
             CreateMap<SavePostViewModel, Post>()
-                .ForMember(dest => dest.UserId, opt => opt.Ignore())
                 .ReverseMap();
             #endregion
 

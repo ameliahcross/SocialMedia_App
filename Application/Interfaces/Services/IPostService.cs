@@ -13,5 +13,6 @@ namespace SocialMedia_App.Core.Application.Interfaces.Services
     {
         Task<List<PostViewModel>> GetFriendPostsByUserId(int userId);
         Task<List<PostViewModel>> GetAllPostByUserIdWithIncludeAsync(int userId);
+        Task PostImage(int postId, string imageUrl);
     }
 }

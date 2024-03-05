@@ -4,11 +4,11 @@ namespace SocialMedia_App.Core.Domain.Entities
 {
     public class Post : BaseEntity
     {
-        public string Content { get; set; }
+        public string? Content { get; set; }
         public DateTime CreationDate { get; set; }
         public string? ImageUrl { get; set; }
 
-        public string YouTubeLink { get; set; }
+        public string? YouTubeLink { get; set; }
 
         // Foreign key
         public int UserId { get; set; }

@@ -6,6 +6,10 @@ using SocialMedia_App.Middlewares;
 using SocialMedia_App.Core.Application.Helpers;
 using SocialMedia_App.Core.Application.ViewModels.Home;
 using SocialMedia_App.Core.Application.ViewModels.Post;
+using System.Net.Http;
+using System.Web;
+using SocialMedia_App.Core.Application.Services;
+using SocialMedia_App.Core.Domain.Entities;
 
 
 namespace SocialMedia_App.Controllers
@@ -14,13 +18,16 @@ namespace SocialMedia_App.Controllers
     {
         private readonly IPostService _postService;
         private readonly ValidateUserSession _validateUserSession;
-        private readonly IEmailService _emailService;
+        private readonly IUserService _userService;
+        private readonly FileHelper _fileHelper;
 
-        public HomeController(IPostService postService, ValidateUserSession validateUserSession, IEmailService emailService)
+        public HomeController(IPostService postService, ValidateUserSession validateUserSession,
+            FileHelper fileHelper, IUserService userService)
         {
             _postService = postService;
             _validateUserSession = validateUserSession;
-            _emailService = emailService;
+            _fileHelper = fileHelper;
+            _userService = userService;
         }
 
         public async Task<IActionResult> Index()
@@ -43,6 +50,58 @@ namespace SocialMedia_App.Controllers
             return View(homeViewModel);
         }
 
+        // creación de posts
+
+        [HttpPost]
+        public async Task<IActionResult> Create(HomeViewModel model)
+        {
+            if (!ModelState.IsValid || !model.IsValid())
+            {
+                ModelState.AddModelError("", "No puedes crear publicaciones en blanco");
+                return View("Index", model);
+            }
+
+            var userSession = HttpContext.Session.Get<UserViewModel>("user");
+            model.NewPost.UserId = userSession.Id;
+
+            if (!string.IsNullOrWhiteSpace(model.NewPost.YouTubeLink))
+            {
+                model.NewPost.YouTubeLink = ConvertToEmbedUrl(model.NewPost.YouTubeLink);
+            }
+
+           SavePostViewModel postVm = await _postService.Add(model.NewPost);
+
+            if (model.NewPost.File != null && postVm.Id != 0)
+            {
+                string imageUrl = _fileHelper.UploadFile(model.NewPost.File, postVm.Id);
+                await _postService.PostImage(postVm.Id, imageUrl);
+            }
+            
+            return RedirectToAction("Index");
+        }
+
+        public string ConvertToEmbedUrl(string videoUrl)
+        {
+            var videoId = "";
+            var videoUri = new Uri(videoUrl);
+
+            if (videoUri.Host.Contains("youtube.com"))
+            {
+                var query = HttpUtility.ParseQueryString(videoUri.Query);
+                videoId = query["v"];
+            }
+            else if (videoUri.Host.Contains("youtu.be"))
+            {
+                videoId = videoUri.AbsolutePath.Trim('/');
+            }
+            return $"https://www.youtube.com/embed/{videoId}";
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+           await _postService.Delete(id);
+           return RedirectToAction("Index");
+        }
 
 
     }

@@ -41,6 +41,18 @@ namespace SocialMedia_App.Core.Application.Services
             var postByFriendsViewModels = _mapper.Map<List<PostViewModel>>(friendsPosts);
             return postByFriendsViewModels;
         }
+
+        // para publicar una imagen
+        public async Task PostImage(int postId, string imageUrl)
+        {
+            var post = await _postRepository.GetByIdAsync(postId);
+
+            if (post != null)
+            {
+                post.ImageUrl = imageUrl;
+                await _postRepository.PostImageAsync(post);
+            }
+        }
     }
 
     

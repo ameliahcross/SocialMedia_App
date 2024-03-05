@@ -6,5 +6,6 @@ namespace SocialMedia_App.Core.Application.Interfaces.Repositories
     {
         Task<List<Post>> GetAllPostByUserIdWithIncludeAsync(int userId);
         Task<List<Post>> GetPostsByUsersIdsWithIncludeAsync(List<int> userIds);
+        Task PostImageAsync(Post post);
     }
 }

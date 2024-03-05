@@ -34,7 +34,16 @@ namespace SocialMedia_App.Infrastructure.Persistence.Repositories
                 .ToListAsync();
         }
 
-
-
+        // publicar imagen en post
+        public async Task PostImageAsync(Post post)
+        {
+            var postToUpdate = await _dbContext.Posts.FindAsync(post.Id);
+            if (postToUpdate != null)
+            {
+                postToUpdate.ImageUrl = post.ImageUrl;
+                _dbContext.Posts.Update(postToUpdate);
+                await _dbContext.SaveChangesAsync();
+            }
+        }
     }
 }

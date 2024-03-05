@@ -128,13 +128,17 @@ namespace SocialMedia_App.Infrastructure.Persistence.Contexts
                 #region Post
             modelBuilder.Entity<Post>(entity =>
             {
-                entity.Property(e => e.Content);
+                entity.Property(e => e.Content)
+                        .IsRequired(false);
 
-                entity.Property(e => e.CreationDate);
+                entity.Property(e => e.CreationDate)
+                        .IsRequired();
 
-                entity.Property(e => e.ImageUrl);
+                entity.Property(e => e.ImageUrl)
+                        .IsRequired(false);
 
-                entity.Property(e => e.YouTubeLink);
+                entity.Property(e => e.YouTubeLink)
+                        .IsRequired(false);
 
             });
             #endregion
