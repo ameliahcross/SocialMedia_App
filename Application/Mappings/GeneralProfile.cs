@@ -42,6 +42,9 @@ namespace SocialMedia_App.Core.Application.Mappings
 
             CreateMap<SaveUserViewModel, UserViewModel>()
                 .ReverseMap();
+
+            CreateMap<EditUserViewModel, UserViewModel>()
+                .ReverseMap();
             #endregion
 
             #region Post

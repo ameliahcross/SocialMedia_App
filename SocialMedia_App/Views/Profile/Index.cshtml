@@ -43,9 +43,8 @@
         <div class="col-md-6 col-lg-8">
             <div class="card p-3 bg-primary bg-opacity-10 mb-5">
                 <div class="card-header bg-opacity-50 bg-primary">
-                    <h3 class="text-center">Tu perfil</h3>
-                 @*    <img src="@Model.ImageUrl" style="width:200px;height:auto;" /> *@
-                    <img src="@User.ImageUrl" style="width:200px;height:auto;" />
+                    <img src="@User.ImageUrl" style="width:180px;height:auto;" alt="Tu foto de perfil" class="rounded-circle" />
+                    <h1 class="display-6 text-white mx-5 d-inline">@@@User.UserName</h1>
                 </div>
                 <div class="card-body">
                     @Html.ValidationSummary(false, " ", new { @class = "text-danger" })
@@ -53,22 +52,18 @@
                         <div class="col-md-6">
                             <label asp-for="Name" class="form-label">Nombre</label>
                             <input asp-for="Name" class="form-control">
-                            <span asp-validation-for="Name" class="text-danger"></span>
                         </div>
                         <div class="col-md-6">
                             <label asp-for="LastName" class="form-label">Apellido</label>
                             <input asp-for="LastName" class="form-control">
-                            <span asp-validation-for="LastName" class="text-danger"></span>
                         </div>
                         <div class="col-6">
                             <label asp-for="Email" class="form-label">Email</label>
                             <input asp-for="Email" class="form-control">
-                            <span asp-validation-for="Email" class="text-danger"></span>
                         </div>
                         <div class="col-6">
                             <label asp-for="Phone" class="form-label">Telefono <small class="text-primary"> (Sin guiones)</small> </label>
                             <input asp-for="Phone" class="form-control">
-                            <span asp-validation-for="Phone" class="text-danger"></span>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label text-primary"><b>Campos no obligatorios:</b></label>
@@ -76,12 +71,11 @@
                         <div class="col-md-6">
                             <label asp-for="File" class="form-label">Seleccione una foto de perfil</label>
                             <input asp-for="File" class="form-control">
-                            <span asp-validation-for="File" class="text-danger"></span>
                         </div>
                         <div class="col-md-4">
                             <label asp-for="Password" class="form-label">Contraseña</label>
                             <input asp-for="Password" class="form-control">
-                            <san asp-validation-for="Password" class="text-danger"></span>
+                            <span asp-validation-for="Password" class="text-danger"></span>
                         </div>
                         <div class="col-4">
                             <label asp-for="ConfirmPassword" class="form-label">Confirmar contraseña</label>

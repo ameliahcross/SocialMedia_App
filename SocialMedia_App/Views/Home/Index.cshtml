@@ -32,24 +32,22 @@
     </div>
 }
 
-<h4 class="mt-2 text-center text-primary">Hola, @User.UserName.</h4>
+<h4 class="mt-3 text-center text-primary">Hola, @User.UserName.</h4>
 
 <div class="container mt-5">
-    <div class="row align-items-center">
+    <div class="row align-items-center justify-content-center">
         <div class="col-auto me-2">
-            <img src="@User.ImageUrl" alt="Foto de perfil" style="width:200px;height:auto;">
+            <img src="@User.ImageUrl" style="width:180px;height:auto;" alt="Tu foto de perfil" class="rounded-circle" />
         </div>
         <div class="col-md-6 bg-opacity-10 bg-primary">
             <form asp-controller="Post" asp-action="Create" method="post" enctype="multipart/form-data">
                 <div class="row">
-                    <!-- Campo de Compartir -->
                     <div class="col-md-12">
                         <div class="form-group mt-2">
-                            <label for="NewPost_Content">Comparte algo de ti:</label>
+                            <label for="NewPost_Content">Comparte algo:</label>
                             <textarea class="form-control" asp-for="NewPost.Content" rows="2"></textarea>
                         </div>
                     </div>
-                    <!-- Campo de Imagen y YouTube Link lado a lado -->
                     <div class="col-md-6">
                         <div class="form-group mt-2">
                             <label for="NewPost_Image"></label>

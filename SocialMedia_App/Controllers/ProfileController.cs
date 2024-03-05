@@ -66,8 +66,10 @@ namespace SocialMedia_App.Controllers
             var currentUser = await _userService.GetByIdSaveViewModel(vm.Id);
             var currentUserImageUrl = currentUser.ImageUrl;
 
-            // source -> destination
+                        // source -> destination
             _mapper.Map(vm, currentUser);
+
+            var userInSession = _mapper.Map<UserViewModel>(currentUser);
 
             // encriptación de contraseña SI el usuario digitó una nueva
             if (!string.IsNullOrEmpty(vm.Password))
@@ -80,14 +82,17 @@ namespace SocialMedia_App.Controllers
                 string imageUrl = _fileHelper.UploadFile(vm.File, currentUser.Id, true, currentUserImageUrl);
                 currentUser.ImageUrl = imageUrl;
                 await _userService.UpdateImage(vm.Id, imageUrl);
+
+                // Actualizar el usuario en la sesión con la imagen nueva
+                userInSession = _mapper.Map<UserViewModel>(currentUser);
+                HttpContext.Session.Set("user", userInSession);
             }
-            // Conservar la URL actual si no se proporciona un nuevo archivo
-            var hey= currentUser.ImageUrl;
-            
             await _userService.Update(_mapper.Map<SaveUserViewModel>(currentUser), vm.Id);
             TempData["ProfileModified"] = "Ha modificado los datos de su perfil.";
 
             var updatedViewModel = _mapper.Map<EditUserViewModel>(currentUser);
+            var userSession = _mapper.Map<UserViewModel>(updatedViewModel);
+            HttpContext.Session.Set("user", userSession);
             return View("Index", updatedViewModel);
         }
     }
