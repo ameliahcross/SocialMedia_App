@@ -27,7 +27,6 @@ namespace SocialMedia_App.Core.Application.ViewModels.User
         [DataType(DataType.Upload)]
         public IFormFile? File { get; set; }
 
-
         [DataType(DataType.Password)]
         public string? Password { get; set; }
 

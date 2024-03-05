@@ -36,10 +36,12 @@ namespace SocialMedia_App.Core.Application.Mappings
                 .ForMember(dest => dest.Password, act => act.Ignore())
                 .ForMember(dest => dest.ConfirmPassword, act => act.Ignore())
                 .ReverseMap()
+                .ForMember(dest => dest.ImageUrl, opt => opt.Condition(src => src.File != null))
                 .ForMember(dest => dest.Password, act => act.Ignore())
                 .ForMember(dest => dest.ConfirmPassword, act => act.Ignore());
 
-
+            CreateMap<SaveUserViewModel, UserViewModel>()
+                .ReverseMap();
             #endregion
 
             #region Post

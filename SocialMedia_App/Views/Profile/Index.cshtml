@@ -44,6 +44,8 @@
             <div class="card p-3 bg-primary bg-opacity-10 mb-5">
                 <div class="card-header bg-opacity-50 bg-primary">
                     <h3 class="text-center">Tu perfil</h3>
+                 @*    <img src="@Model.ImageUrl" style="width:200px;height:auto;" /> *@
+                    <img src="@User.ImageUrl" style="width:200px;height:auto;" />
                 </div>
                 <div class="card-body">
                     @Html.ValidationSummary(false, " ", new { @class = "text-danger" })
