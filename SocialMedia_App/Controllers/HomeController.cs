@@ -73,8 +73,9 @@ namespace SocialMedia_App.Controllers
 
             if (model.NewPost.File != null && postVm.Id != 0)
             {
-                string imageUrl = _fileHelper.UploadFile(model.NewPost.File, postVm.Id);
+                string imageUrl = _fileHelper.UploadFile(model.NewPost.File, postVm.Id, "Posts");
                 await _postService.PostImage(postVm.Id, imageUrl);
+                postVm.PostImageUrl = imageUrl;
             }
             
             return RedirectToAction("Index");
@@ -101,6 +102,17 @@ namespace SocialMedia_App.Controllers
         {
            await _postService.Delete(id);
            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit()
+        {
+            return RedirectToAction("Index");
         }
 
 

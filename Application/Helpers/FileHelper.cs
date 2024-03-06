@@ -5,7 +5,7 @@ namespace SocialMedia_App.Core.Application.Helpers
     public class FileHelper
     {
         // Método para cargar un archivo
-        public string UploadFile(IFormFile file, int id, bool isEditMode = false, string imagePath = "")
+        public string UploadFile(IFormFile file, int id, string folderName, bool isEditMode = false, string imagePath = "")
         {
             if (isEditMode)
             {
@@ -14,8 +14,14 @@ namespace SocialMedia_App.Core.Application.Helpers
                     return imagePath;
                 }
             }
-            // Directorio
-            string basePath = $"/Images/Users/{id}";
+
+            if (folderName != "Users" && folderName != "Posts")
+            {
+                throw new ArgumentException("Nombre de carpeta inválido", nameof(folderName));
+            }
+
+            // Directorio dependiendo del tipo de entidad
+            string basePath = $"/Images/{folderName}/{id}";
             string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
 
             // Crea el directorio si no existe

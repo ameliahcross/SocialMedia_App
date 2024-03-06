@@ -79,7 +79,7 @@ namespace SocialMedia_App.Controllers
             // actualizar imagen SI el usuario decidió cambiarla
             if (vm.File != null && vm.File.Length > 0)
             {
-                string imageUrl = _fileHelper.UploadFile(vm.File, currentUser.Id, true, currentUserImageUrl);
+                string imageUrl = _fileHelper.UploadFile(vm.File, currentUser.Id, "Users", true, currentUserImageUrl);
                 currentUser.ImageUrl = imageUrl;
                 await _userService.UpdateImage(vm.Id, imageUrl);
 

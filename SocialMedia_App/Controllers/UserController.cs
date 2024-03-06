@@ -84,7 +84,7 @@ namespace WebApp.SocialMedia_App.Controllers
 
             if (vm.File != null && userVm.Id != 0)
             {
-                string imageUrl = _fileHelper.UploadFile(vm.File, userVm.Id);
+                string imageUrl = _fileHelper.UploadFile(vm.File, userVm.Id, "Users");
                 await _userService.UpdateImage(userVm.Id, imageUrl);
             }
 

@@ -12,7 +12,7 @@ namespace SocialMedia_App.Core.Application.ViewModels.Post
         public int Id { get; set; }
         public string Content { get; set; }
         public DateTime CreationDate { get; set; }
-        public byte[] Image { get; set; }
+        //public byte[] Image { get; set; }
         public string PostImageUrl { get; set; }
         public string YouTubeLink { get; set; }
         public int UserId { get; set; }

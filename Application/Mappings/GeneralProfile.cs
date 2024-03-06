@@ -49,9 +49,11 @@ namespace SocialMedia_App.Core.Application.Mappings
 
             #region Post
             CreateMap<Post, PostViewModel>()
+               .ForMember(dest => dest.PostImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
                .ForMember(dest => dest.UserImageUrl, opt => opt.MapFrom(src => src.User.ImageUrl))
-               .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments));
+               .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
+               .ReverseMap();
 
             CreateMap<SavePostViewModel, Post>()
                 .ReverseMap();
