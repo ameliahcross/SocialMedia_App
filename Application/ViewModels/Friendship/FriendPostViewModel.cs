@@ -1,13 +1,10 @@
-﻿using SocialMedia_App.Core.Application.ViewModels.Comment;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace SocialMedia_App.Core.Application.ViewModels.Post
+using SocialMedia_App.Core.Application.ViewModels.Comment;
+
+namespace SocialMedia_App.Core.Application.ViewModels.Friendship
 {
-    public class PostViewModel
+    public class FriendPostViewModel
     {
         public int Id { get; set; }
         public string Content { get; set; }

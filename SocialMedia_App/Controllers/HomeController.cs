@@ -20,17 +20,15 @@ namespace SocialMedia_App.Controllers
     {
         private readonly IPostService _postService;
         private readonly ValidateUserSession _validateUserSession;
-        private readonly IUserService _userService;
         private readonly FileHelper _fileHelper;
         private readonly IMapper _mapper;
 
         public HomeController(IPostService postService, ValidateUserSession validateUserSession,
-            FileHelper fileHelper, IUserService userService, IMapper mapper)
+            FileHelper fileHelper, IMapper mapper)
         {
             _postService = postService;
             _validateUserSession = validateUserSession;
             _fileHelper = fileHelper;
-            _userService = userService;
             _mapper = mapper;
         }
 

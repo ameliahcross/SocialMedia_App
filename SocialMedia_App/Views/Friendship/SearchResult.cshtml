@@ -1,0 +1,75 @@
+﻿@using SocialMedia_App.Core.Application.ViewModels.Friendship
+@using SocialMedia_App.Core.Application.ViewModels.User
+
+@model FriendshipHomeViewModel
+
+@inject IHttpContextAccessor httpContext;
+@using Microsoft.AspNetCore.Http;
+@using SocialMedia_App.Core.Application.Helpers;
+@{
+    UserViewModel User = httpContext.HttpContext.Session.Get<UserViewModel>("user");
+    ViewData["Title"] = "Agregar amigo";
+}
+
+@section Sidebar {
+    <div class="col-md-3 col-xl-2 bg-dark sidebar vh-100">
+        <ul class="nav nav-pills flex-column mb-auto">
+            <li class="nav-item">
+                <a class="nav-link active text-white" asp-controller="Home" asp-action="Index" asp-route-id="@User.Id">
+                    <i class="fas fa-home"></i> Inicio
+                </a>
+            </li>
+            <li>
+                <a class="nav-link text-white" aria-current="page" asp-controller="Friendship" asp-action="Index" asp-route-id="@User.Id">
+                    <i class="fas fa-user-friends"></i> Amigos
+                </a>
+            </li>
+            <li>
+                <a class="nav-link text-white" asp-controller="Profile" asp-action="Edit" asp-route-id="@User.Id">
+                    <i class="fas fa-user"></i> Mi Perfil
+                </a>
+            </li>
+        </ul>
+    </div>
+}
+
+@if (ViewBag.UserNotFound != null)
+{
+    <div class="alert alert-danger mt-3" role="alert">
+        @ViewBag.UserNotFound
+    </div>
+    <div class="col-sm-12 mt-3 col-sm-12 mt-3 d-flex justify-content-center">
+        <a class="btn btn-primary" asp-controller="Friendship" asp-action="AddFriend">
+           Volver atrás
+        </a>
+    </div>
+}
+else if (Model.User != null)
+{
+    <div class="user-result">
+      
+        <table class="table table-dark table-striped mt-3">
+            <thead>
+                <tr>
+                    <th>Usuario</th>
+                    <th>Nombre</th>
+                    <th class="text-end"></th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                    <td>@Model.User.UserName</td>
+                    <td>@Model.User.Name @Model.User.LastName</td>
+                        <td class="text-end">
+                        <form asp-controller="Friendship" asp-action="Create" method="post">
+                            <input type="hidden" name="FriendId" value="@Model.User.Id" />
+                            <button type="submit" class="btn btn-success">Agregar como Amigo</button>
+                        </form>
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+
+    </div>
+}
+

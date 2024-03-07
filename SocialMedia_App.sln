@@ -21,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialMedia_App.Infrastruct
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{CA818AEE-7088-4096-9595-F379E4F73473}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialMedia_App.Infrastructure.Shared", "SocialMedia_App.Infrastructure.Shared\SocialMedia_App.Infrastructure.Shared.csproj", "{9F2B3103-75B0-4D93-A4A6-10B80A4007C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialMedia_App.Infrastructure.Shared", "SocialMedia_App.Infrastructure.Shared\SocialMedia_App.Infrastructure.Shared.csproj", "{9F2B3103-75B0-4D93-A4A6-10B80A4007C0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

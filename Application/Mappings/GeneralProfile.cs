@@ -45,6 +45,14 @@ namespace SocialMedia_App.Core.Application.Mappings
 
             CreateMap<EditUserViewModel, UserViewModel>()
                 .ReverseMap();
+
+            CreateMap<UserViewModel, FriendListViewModel>()
+              .ForMember(dest => dest.FriendId, act => act.MapFrom(src => src.Id))
+              .ForMember(dest => dest.UserName, act => act.MapFrom(src => src.UserName))
+              .ForMember(dest => dest.Name, act => act.MapFrom(src => src.Name))
+              .ForMember(dest => dest.LastName, act => act.MapFrom(src => src.LastName))
+              .ForMember(dest => dest.ProfilePictureUrl, act => act.MapFrom(src => src.ImageUrl));
+
             #endregion
 
             #region Post
@@ -73,7 +81,12 @@ namespace SocialMedia_App.Core.Application.Mappings
                 .ReverseMap()
                 .ForMember(dest => dest.PostImageUrl, opt => opt.Condition(src => src.File != null));
 
-
+            CreateMap<PostViewModel, FriendPostViewModel>()
+                  .ForMember(dest => dest.UserId, act => act.MapFrom(src => src.UserId))
+                  .ForMember(dest => dest.UserName, act => act.MapFrom(src => src.UserName))
+                  .ForMember(dest => dest.UserImageUrl, act => act.MapFrom(src => src.UserImageUrl))
+                  .ForMember(dest => dest.Comments, act => act.MapFrom(src => src.Comments))
+                  .ReverseMap();
 
             #endregion
 

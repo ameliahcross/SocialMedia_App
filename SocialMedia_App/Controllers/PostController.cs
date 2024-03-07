@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialMedia_App.Core.Application.Helpers;
 using SocialMedia_App.Core.Application.Interfaces.Services;
-using SocialMedia_App.Core.Application.ViewModels.Home;
-using SocialMedia_App.Core.Application.ViewModels.Post;
 using SocialMedia_App.Middlewares;
 
 namespace SocialMedia_App.Controllers

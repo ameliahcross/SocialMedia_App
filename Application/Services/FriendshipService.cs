@@ -41,7 +41,7 @@ namespace SocialMedia_App.Core.Application.Services
             return friends.Any(friends => friends.FriendId == friendId);
         }
 
-        // para crear la lista de los amigos de cierto usuario
+        // para obtener la lista de los amigos de cierto usuario
         public async Task<List<UserViewModel>> GetFriendsByUserId(int userId)
         {
             var friendships = await _friendshipRepository.GetAllFriendsByUserIdAsync(userId);
