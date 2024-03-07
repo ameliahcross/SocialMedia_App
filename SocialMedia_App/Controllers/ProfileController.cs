@@ -92,6 +92,7 @@ namespace SocialMedia_App.Controllers
 
             var updatedViewModel = _mapper.Map<EditUserViewModel>(currentUser);
             var userSession = _mapper.Map<UserViewModel>(updatedViewModel);
+            userSession.UserName = currentUser.UserName;
             HttpContext.Session.Set("user", userSession);
             return View("Index", updatedViewModel);
         }

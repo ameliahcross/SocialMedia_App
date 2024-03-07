@@ -57,6 +57,22 @@ namespace SocialMedia_App.Core.Application.Mappings
 
             CreateMap<SavePostViewModel, Post>()
                 .ReverseMap();
+
+            CreateMap<Post, EditPostViewModel>()
+                .ForMember(dest => dest.File, opt => opt.Ignore());
+
+            CreateMap<SavePostViewModel, EditPostViewModel>()
+                .ForMember(dest => dest.Content, opt => opt.MapFrom(src => src.Content ?? string.Empty))
+                .ForMember(dest => dest.YouTubeLink, opt => opt.MapFrom(src => src.YouTubeLink ?? string.Empty))
+                .ForMember(dest => dest.PostImageUrl, opt => opt.MapFrom(src => src.PostImageUrl ?? string.Empty))
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+               .ForMember(dest => dest.File, opt => opt.Ignore())
+                .ForMember(dest => dest.CreationDate, opt => opt.MapFrom(src => src.CreationDate))
+                .ReverseMap()
+                .ForMember(dest => dest.PostImageUrl, opt => opt.Condition(src => src.File != null));
+
+
+
             #endregion
 
             #region Friendship

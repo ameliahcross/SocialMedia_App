@@ -1,0 +1,59 @@
+﻿@using SocialMedia_App.Core.Application.ViewModels.Home
+@using SocialMedia_App.Core.Application.ViewModels.Post
+@model EditPostViewModel
+
+@{
+    ViewData["Title"] = "Editar Publicación";
+}
+@section Sidebar {
+    <div class="col-md-2 col-sm-3 col-xl-2 bg-dark sidebar vh-100">
+        <ul class="nav nav-pills flex-column mb-auto">
+            @*   <li class="nav-item">
+        <a class="nav-link active text-white" aria-current="page" href="@Url.Action("Index", "Home")">
+        <i class="fas fa-home"></i> Inicio
+        </a>
+        </li>
+        <li>
+        <a class="nav-link text-white" href="@Url.Action("Index", "Friendship")">
+        <i class="fas fa-user-friends"></i> Amigos
+        </a>
+        </li>
+        <li>
+        <a class="nav-link text-white" href="@Url.Action("Index", "Profile")">
+        <i class="fas fa-user"></i> Mi Perfil
+        </a>
+        </li> *@
+        </ul>
+    </div>
+}
+
+<h4 class="mt-3 text-center text-primary">Editar publicación</h4>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form asp-controller="Home" asp-action="Edit" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+                <div class="form-group">
+                    <label asp-for="Content" class="control-label">Contenido</label>
+                    <textarea asp-for="Content" class="form-control"></textarea>
+                    <span asp-validation-for="Content" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="YouTubeLink" class="control-label">Link de YouTube</label>
+                    <input asp-for="YouTubeLink" class="form-control" />
+                    <span asp-validation-for="YouTubeLink" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="File" class="control-label">Imagen</label>
+                    <input asp-for="File" type="file" class="form-control-file" />
+                    <span asp-validation-for="File" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Actualizar Publicación</button>
+                </div>
+                <input type="hidden" asp-for="UserId" />
+            </form>
+        </div>
+    </div>
+</div>

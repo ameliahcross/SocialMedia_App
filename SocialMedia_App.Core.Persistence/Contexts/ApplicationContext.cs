@@ -89,7 +89,7 @@ namespace SocialMedia_App.Infrastructure.Persistence.Contexts
                 .HasForeignKey(c => c.ParentCommentId);
             #endregion
 
-            #region property configurations
+             #region property configurations
                 #region User
                 modelBuilder.Entity<User>(entity =>
                 {
