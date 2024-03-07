@@ -156,19 +156,20 @@ namespace SocialMedia_App.Controllers
 
             await _postService.Update(currentPost, vm.Id);
 
+            // si ya viene con una imagen previa 
             if (!string.IsNullOrWhiteSpace(vm.PostImageUrl))
             {
                 currentPost.PostImageUrl = vm.PostImageUrl;
-            }
+            } 
 
             if (vm.File != null && vm.File.Length > 0)
             {
                 string imageUrl = _fileHelper.UploadFile(vm.File, currentPost.Id, "Posts");
                 await _postService.PostImage(currentPost.Id, imageUrl);
+            } 
+            if ((vm.File != null && vm.File.Length > 0) && vm.PostImageUrl == null) { 
+                
             }
-            //Pero en el caso de que se esté editando un post que ya viene con una imagen originalmente,
-            //si edito un campo que no sea el de la imagen, o sea, si no subo ningun archivo, no me está
-            //conservando la imagen previa sino que se esta guardando el registro con la propiedad en null
             return RedirectToAction("Index");
         }
 

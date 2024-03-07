@@ -55,8 +55,10 @@ namespace SocialMedia_App.Core.Application.Mappings
                .ForMember(dest => dest.Comments, opt => opt.MapFrom(src => src.Comments))
                .ReverseMap();
 
-            CreateMap<SavePostViewModel, Post>()
+            CreateMap<Post, SavePostViewModel>()
+                .ForMember(dest => dest.PostImageUrl, opt => opt.MapFrom(src => src.ImageUrl))
                 .ReverseMap();
+
 
             CreateMap<Post, EditPostViewModel>()
                 .ForMember(dest => dest.File, opt => opt.Ignore());

@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <input type="hidden" asp-for="NewPost.Id">
-                @* <input type="hidden" asp-for="@User.Id"> *@
+                <input type="hidden" asp-for="NewPost.PostImageUrl">
                 <input asp-for="NewPost.CreationDate" type="hidden">
                 <button type="submit" class="btn btn-primary my-3 offset-12">Publicar</button>
             </form>
