@@ -52,24 +52,9 @@
                 @* <input type="hidden" asp-for="NewFriend.Id"> *@
             </form>
         </div>
+        <div class="col-sm-3">
+            <a asp-controller="Friendship" asp-action="Index" class="btn btn-secondary">
+                Volver atrás
+            </a>
+        </div>
     </div>
-</div>
-@* 
-@if (ViewBag.UserNotFound != null)
-{
-    <div class="alert alert-danger" role="alert">
-        @ViewBag.UserNotFound
-    </div>
-}
-else if (Model.User != null)
-{
-    <div class="user-result">
-        <p>@Model.User.UserName</p>
-        <p>@Model.User.Name @Model.User.LastName</p>
-        <form asp-controller="Friendship" asp-action="Create" method="post">
-            <input type="hidden" name="FriendId" value="@Model.User.Id" />
-            <button type="submit" class="btn btn-success">Agregar como Amigo</button>
-        </form>
-    </div>
-}
- *@

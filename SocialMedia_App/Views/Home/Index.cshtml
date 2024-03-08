@@ -71,13 +71,11 @@
     </div>
 </div>
 
-
-
-    @* listado de publicaciones y sus comentarios *@
+    @* mis posts *@
 <div class="row">
     <div class="container mt-5">
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-8">
                 @if (Model == null || Model.Posts.Count == 0)
                 {
                     <p>No hay publicaciones disponibles.</p>
@@ -86,7 +84,7 @@
                 {
                     @foreach (var post in Model.Posts)
                     {
-                        <div class="card col-md-12 card my-3">
+                        <div class="card col-md-10 card my-3">
                             <div class="card-header d-flex">
                                 <div class="d-flex align-items-center col-md-4">
                                     <img src="@post.UserImageUrl" class="rounded-circle" width="40" height="40" alt="Foto de perfil">
@@ -117,32 +115,37 @@
                                         <iframe class="embed-responsive-item" src="@post.YouTubeLink" allowfullscreen></iframe>
                                     </div>
                                 }
-                            </div>
-                            @* <div class="d-flex justify-content-end my-2">
-                                <a asp-controller="Post" asp-action="Delete" class="btn btn-sm btn-primary mx-2">Responder</a>
-                            </div> *@
-                        </div>
-                        @if (post.Comments != null && post.Comments.Any())
-                        {
-                            foreach (var comentario in post.Comments)
-                            {
-                                <div class="card mt-3 ml-4 bg-opacity-10 bg-secondary">
-                                    <div class="card-header">
-                                        <div class="d-flex align-items-center">
-                                            <img src="@comentario.UserImageUrl" class="rounded-circle" width="30" height="30" alt="Foto de perfil">
-                                            <span class="ml-2 text-primary fw-bold">@comentario.UserName</span>
+                                @* Mostrar comentarios *@
+                                @foreach (var comment in post.Comments)
+                                {
+                                    <div class="card mt-3">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center bg-secondary bg-opacity-10">
+                                                <img src="@comment.UserImageUrl" class="rounded-circle me-2" width="40" height="40" alt="Foto de perfil">
+                                                <div>
+                                                    <span class="text-primary fw-bold mx-2">@comment.UserName</span>
+                                                    <span class="mx-2 text-secondary col-12">@comment.CreationDate</span>
+                                                </div>
+                                            </div>
+                                            <p class="mt-2">@comment.Content</p>
                                         </div>
                                     </div>
-                                    <div class="card-body">
-                                        <p class="text-secondary">@comentario.Content</p>
+                                }
+                            </div>
+                            <div class="card-footer text-muted">
+                                <form asp-controller="Comment" asp-action="Create" method="post">
+                                    <input type="hidden" name="ReturnUrl" value="@ViewContext.HttpContext.Request.Path" />
+                                    <input type="hidden" asp-for="NewComment.PostId" value="@post.Id" />
+                                    <input type="hidden" asp-for="NewComment.UserId" value="@User.Id" />
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder="Escribe un comentario..." asp-for="NewComment.Content" />
+                                        <div class="input-group-append">
+                                            <button class="btn btn-outline-secondary" type="submit">Comentar</button>
+                                        </div>
                                     </div>
-                                    <div class="card-footer">
-                                        <button type="button" class="btn btn-sm btn-primary">Responder</button>
-                                        <button type="button" class="btn btn-sm btn-warning">Eliminar</button>
-                                    </div>
-                                </div>
-                            }
-                        }
+                                </form>
+                            </div>
+                        </div>
                     }
                 }
             </div>

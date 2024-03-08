@@ -20,6 +20,8 @@ namespace SocialMedia_App.Infrastructure.Persistence.Repositories
                .Where(comment => comment.PostId == postId)
                .Include(comment => comment.User)
                .Include(comment => comment.Replies)
+                   .ThenInclude(reply => reply.User)
+               .Include(comment => comment.Replies)
                .ToListAsync();
         }
 

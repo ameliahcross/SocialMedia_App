@@ -31,7 +31,14 @@ namespace SocialMedia_App.Core.Application.Services
                 FriendId = friendId
             };
 
+            var newFriendship2 = new Friendship
+            {
+                UserId = friendId,
+                FriendId = userId
+            };
+
             await _friendshipRepository.AddAsync(newFriendship);
+            await _friendshipRepository.AddAsync(newFriendship2);
         }
 
         // para saber si dos usuario son amigos
@@ -42,13 +49,11 @@ namespace SocialMedia_App.Core.Application.Services
         }
 
         // para obtener la lista de los amigos de cierto usuario
-        public async Task<List<UserViewModel>> GetFriendsByUserId(int userId)
+        public async Task<List<FriendListViewModel>> GetFriendsByUserId(int userId)
         {
             var friendships = await _friendshipRepository.GetAllFriendsByUserIdAsync(userId);
-            var friends = friendships.Select(friend => friend.Friend);
-
-            var friendViewModels = _mapper.Map<List<UserViewModel>>(friends);
-            return friendViewModels;
+            var friendListViewModel = _mapper.Map<List<FriendListViewModel>>(friendships);
+            return friendListViewModel;
         }
 
        

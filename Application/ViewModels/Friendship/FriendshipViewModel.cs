@@ -14,7 +14,6 @@ namespace SocialMedia_App.Core.Application.ViewModels.Friendship
         public string FriendName { get; set; }
         public string FriendLastName { get; set; }
         public string FriendImageUrl { get; set; }
-
     }
 }
 

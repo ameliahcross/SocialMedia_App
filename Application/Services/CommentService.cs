@@ -2,7 +2,6 @@
 using SocialMedia_App.Core.Application.Interfaces.Repositories;
 using SocialMedia_App.Core.Application.Interfaces.Services;
 using SocialMedia_App.Core.Application.ViewModels.Comment;
-using SocialMedia_App.Core.Application.ViewModels.Post;
 using SocialMedia_App.Core.Domain.Entities;
 
 namespace SocialMedia_App.Core.Application.Services
@@ -10,14 +9,12 @@ namespace SocialMedia_App.Core.Application.Services
     public class CommentService : GenericService<SaveCommentViewModel, CommentViewModel, Comment>, ICommentService
     {
         private readonly ICommentRepository _commentRepository;
-        private readonly IPostRepository _postRepository;
         private readonly IMapper _mapper;
 
-        public CommentService(ICommentRepository commentRepository, IPostRepository postRepository, IMapper mapper)
+        public CommentService(ICommentRepository commentRepository, IMapper mapper)
             : base(commentRepository, mapper)
         {
             _commentRepository = commentRepository;
-            _postRepository = postRepository;
             _mapper = mapper;
         }
 
@@ -30,7 +27,7 @@ namespace SocialMedia_App.Core.Application.Services
         }
 
         // para devolver un comentario con sus replies
-        public async Task<CommentViewModel> GetById(int commentId)
+        public async Task<CommentViewModel> GetCommentWithRepliesById(int commentId)
         {
             var comment = await _commentRepository.GetByIdWithIncludeAsync(commentId);
             var commentById = _mapper.Map<CommentViewModel>(comment); 

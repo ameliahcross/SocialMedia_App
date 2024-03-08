@@ -18,14 +18,18 @@ namespace SocialMedia_App.Controllers
         private readonly IPostService _postService;
         private readonly IUserService _userService;
         private readonly IMapper _mapper;
+        private readonly ICommentService _commentService;
+
         public FriendshipController(ValidateUserSession validateUserSession, IUserService userService,
-            IFriendshipService friendshipService, IMapper mapper, IPostService postService)
+            IFriendshipService friendshipService, IMapper mapper, IPostService postService,
+            ICommentService commentService)
         {
             _friendshipService = friendshipService;
             _validateUserSession = validateUserSession;
             _mapper = mapper;
             _postService = postService;
             _userService = userService;
+            _commentService = commentService;
         }
 
         public async Task<IActionResult> Index()
@@ -38,17 +42,24 @@ namespace SocialMedia_App.Controllers
 
             var userVm = HttpContext.Session.Get<UserViewModel>("user");
 
-            var friendPosts = await _postService.GetFriendPostsByUserId(userVm.Id); // lista de posts de amigos
+            var friendPosts = await _postService.GetFriendPostsByUserId(userVm.Id); 
             var friendPostViewModels = _mapper.Map<List<FriendPostViewModel>>(friendPosts);
 
-            var friends = await _friendshipService.GetFriendsByUserId(userVm.Id); // lista de amigos
+            foreach (var postViewModel in friendPostViewModels)
+            {
+                var postComments = await _commentService.GetAllByPostId(postViewModel.Id);
+                postViewModel.Comments = _mapper.Map<List<CommentViewModel>>(postComments);
+            }
+
+            var friends = await _friendshipService.GetFriendsByUserId(userVm.Id); 
             var friendListViewModels = _mapper.Map<List<FriendListViewModel>>(friends);
 
             var friendshipHomeViewModel = new FriendshipHomeViewModel
             {
                 Friends = friendListViewModels,
                 FriendPosts = friendPostViewModels,
-                NewFriend = new AddFriendViewModel()
+                NewComment = new SaveCommentViewModel(),
+                NewFriend = new AddFriendViewModel(),
             };
 
             return View(friendshipHomeViewModel);
@@ -72,9 +83,29 @@ namespace SocialMedia_App.Controllers
             return View(viewModel);
         }
 
+        // eliminar Friendship
+        public async Task<IActionResult> Delete(int friendshipId)
+        {
+            if (!_validateUserSession.HasUser())
+            {
+                TempData["NoAccess"] = "No tiene permiso para acceder a esta página. Primero debe iniciar sesión.";
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
+
+            await _friendshipService.Delete(friendshipId);
+            return RedirectToAction("Index");
+        }
+
+
         [HttpPost]
         public async Task<IActionResult> Search(FriendshipHomeViewModel model)
-        { 
+        {
+            if (!_validateUserSession.HasUser())
+            {
+                TempData["NoAccess"] = "No tiene permiso para acceder a esta página. Primero debe iniciar sesión.";
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
+
             var viewModel = new FriendshipHomeViewModel
             {
                 NewFriend = model.NewFriend, 
@@ -91,7 +122,6 @@ namespace SocialMedia_App.Controllers
             }
 
             var userFound = await _userService.GetByUsername(model.NewFriend.UserName);
-            var nameSearched = userFound;
 
             if (userFound == null)
             {
@@ -106,32 +136,16 @@ namespace SocialMedia_App.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(int friendId)
         {
+            if (!_validateUserSession.HasUser())
+            {
+                TempData["NoAccess"] = "No tiene permiso para acceder a esta página. Primero debe iniciar sesión.";
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
+
             var userSession = HttpContext.Session.Get<UserViewModel>("user");
-
-            SaveFriendshipViewModel newFriendship = new SaveFriendshipViewModel
-            {
-                UserId = userSession.Id,
-                FriendId = friendId
-            };
-
-            var addingFriend= await _friendshipService.Add(newFriendship);
-
-            if (addingFriend != null)
-            {
-                TempData["SuccessMessage"] = "¡Amigo agregado exitosamente!";
-            }
-            else
-            {
-                TempData["ErrorMessage"] = "Ocurrió un error al intentar agregar al amigo.";
-            }
+            await _friendshipService.AddFriendshipAsync(userSession.Id, friendId);
             return RedirectToAction("Index");
         }
-
-
-
-
-
-
 
 
     }

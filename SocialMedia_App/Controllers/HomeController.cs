@@ -12,6 +12,8 @@ using SocialMedia_App.Core.Application.Services;
 using SocialMedia_App.Core.Domain.Entities;
 using AutoMapper;
 using Microsoft.Extensions.Hosting;
+using SocialMedia_App.Core.Application.ViewModels.Friendship;
+using SocialMedia_App.Core.Application.ViewModels.Comment;
 
 
 namespace SocialMedia_App.Controllers
@@ -22,14 +24,16 @@ namespace SocialMedia_App.Controllers
         private readonly ValidateUserSession _validateUserSession;
         private readonly FileHelper _fileHelper;
         private readonly IMapper _mapper;
+        private readonly ICommentService _commentService;
 
         public HomeController(IPostService postService, ValidateUserSession validateUserSession,
-            FileHelper fileHelper, IMapper mapper)
+            FileHelper fileHelper, IMapper mapper, ICommentService commentService)
         {
             _postService = postService;
             _validateUserSession = validateUserSession;
             _fileHelper = fileHelper;
             _mapper = mapper;
+            _commentService = commentService;
         }
 
         public async Task<IActionResult> Index()
@@ -42,6 +46,13 @@ namespace SocialMedia_App.Controllers
 
             var userVm = HttpContext.Session.Get<UserViewModel>("user");
             var posts = await _postService.GetAllPostByUserIdWithIncludeAsync(userVm.Id);
+            var myPostsViewModels = _mapper.Map<List<PostViewModel>>(posts);
+
+            foreach (var postViewModel in myPostsViewModels)
+            {
+                var postComments = await _commentService.GetAllByPostId(postViewModel.Id);
+                postViewModel.Comments = _mapper.Map<List<CommentViewModel>>(postComments);
+            }
 
             var homeViewModel = new HomeViewModel
             {
@@ -108,7 +119,7 @@ namespace SocialMedia_App.Controllers
                 return RedirectToRoute(new { controller = "Login", action = "Index" });
             }
 
-            await _postService.Delete(id);
+           await _postService.Delete(id);
            return RedirectToAction("Index");
         }
 

@@ -7,7 +7,7 @@
 @using SocialMedia_App.Core.Application.Helpers;
 @{
     UserViewModel User = httpContext.HttpContext.Session.Get<UserViewModel>("user");
-    ViewData["Title"] = "Feed de Amigos";
+    ViewData["Title"] = "Amigos";
 }
 
 @section Sidebar {
@@ -31,7 +31,25 @@
         </ul>
     </div>
 }
-<h4 class="mt-3 text-center text-primary">El feed de tus amigos</h4>
+<h4 class="mt-3 text-center text-primary">Tus amigos</h4>
+
+@{
+    var successMessage = ViewBag.SuccessMessage;
+    var errorMessage = ViewBag.ErrorMessage;
+}
+@if (successMessage != null)
+{
+    <div class="alert alert-success">
+        @successMessage
+    </div>
+}
+
+@if (errorMessage != null)
+{
+    <div class="alert alert-danger">
+        @errorMessage
+    </div>
+}
 
 @* lista de amigos *@
 <div class="container mt-5">
@@ -42,21 +60,26 @@
             </a>
         </div>
         <div class="col-md-12">
-            <h5>Lista de Amigos</h5>
+            <h6>Lista de amigos</h6>
             
             @if (Model.Friends.Any())
             {
                 <ul class="list-group">
                     @foreach (var friend in Model.Friends)
                     {
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            @friend.Name @friend.LastName (@friend.UserName)
-                            <span>
-                                <img src="@friend.ProfilePictureUrl" class="rounded-circle" width="40" height="40" alt="Foto de perfil">
-                            </span>
-                            <a asp-controller="Friendship" asp-action="Delete" asp-route-id="@friend.FriendId" class="btn btn-danger btn-sm">
-                                Eliminar Amigo
-                            </a>
+                        <li class="list-group-item">
+                            <div class="d-flex justify-content-between align-items-center w-100">
+                                <div class="d-flex align-items-center">
+                                    <img src="@friend.ProfilePictureUrl" class="rounded-circle me-2" width="40" height="40" alt="Foto de perfil">
+                                    <div>
+                                        <div class="text-primary fw-bold">@friend.UserName</div>
+                                        <div>@friend.Name @friend.LastName</div>
+                                    </div>
+                                </div>
+                                <a asp-controller="Friendship" asp-action="Delete" asp-route-friendshipId="@friend.FriendshipId" class="btn btn-danger btn-sm">
+                                    Eliminar
+                                </a>
+                            </div>
                         </li>
                     }
                 </ul>
@@ -66,17 +89,15 @@
                 <p>No tienes amigos agregados.</p>
             }
         </div>
-        <div class="col-md-8">
-          @*  posible poner post de amigos aqui *@
-        </div>
     </div>
 </div>
+
 @* post de los amigos *@
 <div class="row">
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
-                @if (Model == null || !Model.FriendPosts.Any())
+                @if (Model == null || Model.FriendPosts.Count == 0)
                 {
                     <p>No hay publicaciones disponibles.</p>
                 }
@@ -84,11 +105,13 @@
                 {
                     foreach (var post in Model.FriendPosts)
                     {
-                        <div class="card my-3">
-                            <div class="card-header">
-                                <img src="@post.UserImageUrl" class="rounded-circle" width="40" height="40" alt="Foto de perfil">
-                                <span class="mx-2 fw-bold text-primary">@post.UserName</span>
-                                <span class="mx-2 text-secondary col-12">@post.CreationDate</span>
+                        <div class="card col-md-10 card my-3">
+                            <div class="card-header d-flex">
+                                <div class="d-flex align-items-center col-md-4">
+                                    <img src="@post.UserImageUrl" class="rounded-circle me-2" width="40" height="40" alt="Foto de perfil">
+                                    <span class="mx-2 fw-bold text-primary">@post.UserName</span>
+                                    <span class="mx-2 text-secondary col-12">@post.CreationDate</span>
+                                </div>
                             </div>
                             <div class="card-body">
                                 @if (!string.IsNullOrWhiteSpace(post.Content))
@@ -97,24 +120,67 @@
                                 }
                                 @if (!string.IsNullOrWhiteSpace(post.PostImageUrl))
                                 {
-                                    <img src="@post.PostImageUrl" class="img-fluid" alt="Imagen de la publicación">
+                                    <img src="@post.PostImageUrl" width="400" height="400" alt="Imagen de la publicación">
                                 }
                                 @if (!string.IsNullOrWhiteSpace(post.YouTubeLink))
                                 {
-                                    <div class="embed-responsive embed-responsive-16by9">
+                                    <div class="embed-responsive embed-responsive-16by9 mt-2 style="width: 720px;">
                                         <iframe class="embed-responsive-item" src="@post.YouTubeLink" allowfullscreen></iframe>
+                                    </div>
+                                }
+
+                                @* Mostrar comentarios *@
+                                @foreach (var comment in post.Comments)
+                                {
+                                    <div class="card mt-3">
+                                        <div class="card-body bg-opacity-10 bg-primary">
+                                            <div class="d-flex align-items-center bg-secondary bg-opacity-10">
+                                                <img src="@comment.UserImageUrl" class="rounded-circle me-2" width="40" height="40" alt="Foto de perfil">
+                                                <div>
+                                                    <span class="text-primary fw-bold mx-2">@comment.UserName</span>
+                                                    <span class="mx-2 text-secondary col-12">@comment.CreationDate</span>
+                                                </div>
+                                            </div>
+                                            <p class="mt-2">@comment.Content</p>
+
+                                            @* Mostrar replies de comentarios DENTRO del card del comentario padre *@
+                                            @foreach (var reply in comment.Replies)
+                                            { 
+                                                <div class="card-body bg-opacity-10 bg-info mx-2">
+                                                    <div class="d-flex align-items-center bg-secondary bg-opacity-10">
+                                                        <img src="@reply.UserImageUrl" class="rounded-circle me-2" width="40" height="40" alt="Foto de perfil">
+                                                        <div>
+                                                            <span class="text-primary fw-bold mx-2">@reply.UserName</span>
+                                                            <span class="mx-2 text-secondary col-12">@reply.CreationDate</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="mt-2">@reply.Content</p>
+                                                </div>
+                                            }
+                                        </div>
+
+                                        <div class="card-footer text-muted">
+                                           @*  para crear respuestas a comentarios padres *@
+                                            <form asp-controller="Comment" asp-action="Create" method="post">
+                                                <input type="hidden" name="ReturnUrl" value="@ViewContext.HttpContext.Request.Path" />
+                                                <input type="hidden" asp-for="NewComment.PostId" value="@post.Id" />
+                                                <input type="hidden" asp-for="NewComment.UserId" value="@User.Id" />
+                                                <input type="hidden" asp-for="NewComment.ParentCommentId" value="@comment.Id" />
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="Responder..." asp-for="NewComment.Content" />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary" type="submit">Responder</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 }
                             </div>
                             <div class="card-footer text-muted">
-                                @foreach (var comment in post.Comments)
-                                {
-                                    <div class="mb-2">
-                                        <strong>@comment.UserName</strong> dice:
-                                        <p>@comment.Content</p>
-                                    </div>
-                                }
-                                <form asp-controller="Comments" asp-action="Create" method="post">
+                                @*  para comentar el post *@
+                                <form asp-controller="Comment" asp-action="Create" method="post">
+                                    <input type="hidden" name="ReturnUrl" value="@ViewContext.HttpContext.Request.Path" />
                                     <input type="hidden" asp-for="NewComment.PostId" value="@post.Id" />
                                     <input type="hidden" asp-for="NewComment.UserId" value="@User.Id" />
                                     <div class="input-group mb-3">

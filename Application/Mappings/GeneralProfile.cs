@@ -107,17 +107,27 @@ namespace SocialMedia_App.Core.Application.Mappings
             CreateMap<Friendship, SaveFriendshipViewModel>()
                 .ReverseMap();
 
+            CreateMap<Friendship, FriendListViewModel>()
+                .ForMember(dest => dest.FriendId, opt => opt.MapFrom(src => src.Friend.Id))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Friend.UserName))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Friend.Name))
+                .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.Friend.LastName))
+                .ForMember(dest => dest.ProfilePictureUrl, opt => opt.MapFrom(src => src.Friend.ImageUrl))
+                .ForMember(dest => dest.FriendshipId, opt => opt.MapFrom(src => src.Id));
+            
+
             #endregion
 
             #region Comment
             CreateMap<Comment, CommentViewModel>()
-                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.Name))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.User.UserName))
+                .ForMember(dest => dest.UserFirstName, opt => opt.MapFrom(src => src.User.Name))
+                .ForMember(dest => dest.UserLastName, opt => opt.MapFrom(src => src.User.LastName))
                 .ForMember(dest => dest.UserImageUrl, opt => opt.MapFrom(src => src.User.ImageUrl)) 
                 .ForMember(dest => dest.Replies, opt => opt.MapFrom(src => src.Replies))
                 .ReverseMap()
                 .ForMember(dest => dest.User, opt => opt.Ignore())
                 .ForMember(dest => dest.Replies, opt => opt.Ignore())
-
                 .ForMember(dest => dest.ParentCommentId, opt => opt.MapFrom(src => src.ParentCommentId))
                 .ForMember(dest => dest.PostId, opt => opt.MapFrom(src => src.PostId))
                 .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId));

@@ -13,5 +13,7 @@ namespace SocialMedia_App.Core.Application.ViewModels.Friendship
         public string Name { get; set; }
         public string LastName { get; set; }
         public string ProfilePictureUrl { get; set; }
+
+        public int FriendshipId { get; set; }
     }
 }

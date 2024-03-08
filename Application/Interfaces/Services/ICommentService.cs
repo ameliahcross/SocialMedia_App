@@ -5,6 +5,6 @@ namespace SocialMedia_App.Core.Application.Interfaces.Services
     public interface ICommentService : IGenericService<SaveCommentViewModel, CommentViewModel, Comment>
     {
         Task<List<CommentViewModel>> GetAllByPostId(int postId);
-        Task<CommentViewModel> GetById(int commentId);
+        Task<CommentViewModel> GetCommentWithRepliesById(int commentId);
     }
 }

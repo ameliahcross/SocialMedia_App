@@ -5,6 +5,7 @@ using SocialMedia_App.Infrastructure.Shared;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddLogging();
 builder.Services.AddSession();
 builder.Services.AddPersistenceLayer(builder.Configuration);
 builder.Services.AddApplicationLayer();
