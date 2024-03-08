@@ -32,9 +32,14 @@
                 </button>
             </div>
             <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
+                <ul class="navbar-nav flex-grow-1 navbar-nav flex-grow-1 align-items-center mx-2">
                     @if (User != null)
                     {
+                        <li class="nav-item">
+                            <a class="nav-link text-primary" asp-controller="Profile" asp-action="Index">
+                                <img src="@User.ImageUrl" class="rounded-circle me-2" width="40" height="40" alt="Foto de perfil">
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link text-primary" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
