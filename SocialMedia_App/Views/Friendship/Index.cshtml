@@ -99,7 +99,7 @@
             <div class="col-md-8">
                 @if (Model == null || Model.FriendPosts.Count == 0)
                 {
-                    <p>No hay publicaciones disponibles.</p>
+                    <p>No hay publicaciones de amigos disponibles.</p>
                 }
                 else
                 {
@@ -158,9 +158,8 @@
                                                 </div>
                                             }
                                         </div>
-
+                                        @*  para crear respuestas a comentarios padres *@
                                         <div class="card-footer text-muted">
-                                           @*  para crear respuestas a comentarios padres *@
                                             <form asp-controller="Comment" asp-action="Create" method="post">
                                                 <input type="hidden" name="ReturnUrl" value="@ViewContext.HttpContext.Request.Path" />
                                                 <input type="hidden" asp-for="NewComment.PostId" value="@post.Id" />
@@ -177,8 +176,8 @@
                                     </div>
                                 }
                             </div>
+                            @*  para comentar el post *@
                             <div class="card-footer text-muted">
-                                @*  para comentar el post *@
                                 <form asp-controller="Comment" asp-action="Create" method="post">
                                     <input type="hidden" name="ReturnUrl" value="@ViewContext.HttpContext.Request.Path" />
                                     <input type="hidden" asp-for="NewComment.PostId" value="@post.Id" />

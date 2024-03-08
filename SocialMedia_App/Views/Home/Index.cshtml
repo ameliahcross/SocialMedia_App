@@ -71,7 +71,7 @@
     </div>
 </div>
 
-    @* mis posts *@
+@* mis posts *@
 <div class="row">
     <div class="container mt-5">
         <div class="row justify-content-center">
@@ -119,7 +119,7 @@
                                 @foreach (var comment in post.Comments)
                                 {
                                     <div class="card mt-3">
-                                        <div class="card-body">
+                                        <div class="card-body bg-opacity-10 bg-primary">
                                             <div class="d-flex align-items-center bg-secondary bg-opacity-10">
                                                 <img src="@comment.UserImageUrl" class="rounded-circle me-2" width="40" height="40" alt="Foto de perfil">
                                                 <div>
@@ -128,10 +128,40 @@
                                                 </div>
                                             </div>
                                             <p class="mt-2">@comment.Content</p>
+                                            @* Mostrar replies de comentarios DENTRO del card del comentario padre *@
+                                            @foreach (var reply in comment.Replies)
+                                            {
+                                                <div class="card-body bg-opacity-10 bg-info mx-2">
+                                                    <div class="d-flex align-items-center bg-secondary bg-opacity-10">
+                                                        <img src="@reply.UserImageUrl" class="rounded-circle me-2" width="40" height="40" alt="Foto de perfil">
+                                                        <div>
+                                                            <span class="text-primary fw-bold mx-2">@reply.UserName</span>
+                                                            <span class="mx-2 text-secondary col-12">@reply.CreationDate</span>
+                                                        </div>
+                                                    </div>
+                                                    <p class="mt-2">@reply.Content</p>
+                                                </div>
+                                            }
+                                        </div>
+                                        @*  para crear respuestas a comentarios padres *@
+                                        <div class="card-footer text-muted">
+                                            <form asp-controller="Comment" asp-action="Create" method="post">
+                                                <input type="hidden" name="ReturnUrl" value="@ViewContext.HttpContext.Request.Path" />
+                                                <input type="hidden" asp-for="NewComment.PostId" value="@post.Id" />
+                                                <input type="hidden" asp-for="NewComment.UserId" value="@User.Id" />
+                                                <input type="hidden" asp-for="NewComment.ParentCommentId" value="@comment.Id" />
+                                                <div class="input-group mb-3">
+                                                    <input type="text" class="form-control" placeholder="Responder..." asp-for="NewComment.Content" />
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-outline-secondary" type="submit">Responder</button>
+                                                    </div>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 }
                             </div>
+                            @* para comentar mi propio post *@
                             <div class="card-footer text-muted">
                                 <form asp-controller="Comment" asp-action="Create" method="post">
                                     <input type="hidden" name="ReturnUrl" value="@ViewContext.HttpContext.Request.Path" />

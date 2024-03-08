@@ -7,8 +7,8 @@ namespace SocialMedia_App.Controllers
 {
     public class CommentController : Controller
     {
-¿        private readonly ValidateUserSession _validateUserSession;
-¿        private readonly ICommentService _commentService;
+        private readonly ValidateUserSession _validateUserSession;
+        private readonly ICommentService _commentService;
 
         public CommentController(ValidateUserSession validateUserSession, ICommentService commentService)
         {
