@@ -100,6 +100,7 @@ namespace SocialMedia_App.Controllers
         [HttpPost]
         public async Task<IActionResult> Search(FriendshipHomeViewModel model)
         {
+
             if (!_validateUserSession.HasUser())
             {
                 TempData["NoAccess"] = "No tiene permiso para acceder a esta página. Primero debe iniciar sesión.";
@@ -108,10 +109,10 @@ namespace SocialMedia_App.Controllers
 
             var viewModel = new FriendshipHomeViewModel
             {
-                NewFriend = model.NewFriend, 
-                Friends = new List<FriendListViewModel>(), 
+                NewFriend = model.NewFriend,
+                Friends = new List<FriendListViewModel>(),
                 FriendPosts = new List<FriendPostViewModel>(),
-                User = new UserViewModel(), 
+                User = new UserViewModel(),
                 NewComment = new SaveCommentViewModel()
             };
 
@@ -122,16 +123,31 @@ namespace SocialMedia_App.Controllers
             }
 
             var userFound = await _userService.GetByUsername(model.NewFriend.UserName);
-
             if (userFound == null)
             {
                 ViewBag.UserNotFound = "La búsqueda no trajo resultados.";
                 return View("SearchResult", viewModel);
             }
 
+            var userfounId = await _userService.GetByIdSaveViewModel(userFound.Id);
+            var userSearching = HttpContext.Session.Get<UserViewModel>("user");
+            bool alreadyFriends = await _friendshipService.AreFriendsAsync(userSearching.Id, userfounId.Id);
+     
+            if (userFound.Id == userSearching.Id)
+            {
+                ViewBag.FoundYourself = "Mi perfil";
+            }
+
+            if (alreadyFriends)
+            {
+                ViewBag.AlreadyFriends = "Ya es tu amigo(a)";
+            }
+
             viewModel.User = userFound;
             return View("SearchResult", viewModel);
         }
+
+        
 
         [HttpPost]
         public async Task<IActionResult> Create(int friendId)

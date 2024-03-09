@@ -25,13 +25,14 @@ namespace WebApp.SocialMedia_App.Controllers
             _fileHelper = fileHelper;   
         }
 
-        //public IActionResult Index()
-        //{
-        //    return RedirectToRoute(new { controller = "Login", action = "Index" });
-        //}
-
         public async Task<IActionResult> Activate(string token)
         {
+            if (!_validateUserSession.HasUser())
+            {
+                TempData["NoAccess"] = "No tiene permiso para acceder a esta página. Primero debe iniciar sesión.";
+                return RedirectToRoute(new { controller = "Login", action = "Index" });
+            }
+
             var userToActivate = await _userService.GetUserByActivationToken(token);
 
             if (userToActivate != null)

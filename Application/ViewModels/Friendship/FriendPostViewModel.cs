@@ -1,6 +1,4 @@
-﻿
-
-using SocialMedia_App.Core.Application.ViewModels.Comment;
+﻿using SocialMedia_App.Core.Application.ViewModels.Comment;
 
 namespace SocialMedia_App.Core.Application.ViewModels.Friendship
 {

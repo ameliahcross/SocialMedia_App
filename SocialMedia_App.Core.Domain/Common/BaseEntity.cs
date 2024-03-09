@@ -1,5 +1,4 @@
-﻿using System;
-namespace SocialMedia_App.Core.Domain.Common
+﻿namespace SocialMedia_App.Core.Domain.Common
 {
     public class BaseEntity
     {

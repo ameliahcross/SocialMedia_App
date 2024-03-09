@@ -46,19 +46,19 @@
                     <div class="col-md-12">
                         <div class="form-group mt-2">
                             <label asp-for="NewPost.Content" class="form-label">Comparte algo:</label>
-                            <textarea asp-for="NewPost.Content" class="form-control" rows="2"></textarea>
+                            <textarea asp-for="NewPost.Content" class="form-control" rows="2" placeholder="Cómo te sientes hoy?"></textarea>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mt-2">
                             <label asp-for="NewPost.File" class="form-label"></label>
-                            <input asp-for="NewPost.File" class="form-control-file">
+                            <input asp-for="NewPost.File" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group mt-2">
                             <label asp-for="NewPost.YouTubeLink" class="form-label">Link de YouTube:</label>
-                            <input asp-for ="NewPost.YouTubeLink" type="text" class="form-control">
+                            <input asp-for="NewPost.YouTubeLink" type="text" class="form-control" placeholder="Quizás un video musical...">
                         </div>
                     </div>
                 </div>
@@ -152,6 +152,7 @@
                                                 <input type="hidden" asp-for="NewComment.ParentCommentId" value="@comment.Id" />
                                                 <div class="input-group mb-3">
                                                     <input type="text" class="form-control" placeholder="Responde algo..." asp-for="NewComment.Content" />
+                                                    <span asp-validation-for="NewComment.Content" class="text-primary"></span>
                                                     <div class="input-group-append">
                                                         <button class="btn btn-outline-secondary" type="submit">Responder</button>
                                                     </div>
@@ -169,6 +170,7 @@
                                     <input type="hidden" asp-for="NewComment.UserId" value="@User.Id" />
                                     <div class="input-group mb-3">
                                         <input type="text" class="form-control" placeholder="Escribe un comentario..." asp-for="NewComment.Content" />
+                                        <span asp-validation-for="NewComment.Content" class="text-primary"></span>
                                         <div class="input-group-append">
                                             <button class="btn btn-outline-secondary" type="submit">Comentar</button>
                                         </div>

@@ -1,9 +1,9 @@
-﻿using System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
 namespace SocialMedia_App.Core.Application.Helpers
-{
+{   
+    //CLASE PARA SERIALIZAR Y DESERIALIZAR OBJETOS A ALMACENAR EN LA SESION
     public static class SessionHelper
     {
         // guarda la información en la sesión

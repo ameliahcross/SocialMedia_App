@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SocialMedia_App.Core.Domain.Settings
+﻿namespace SocialMedia_App.Core.Domain.Settings
 {
     public class MailSettings
     {

@@ -1,6 +1,4 @@
-﻿using System;
-using SocialMedia_App.Core.Domain.Entities;
-
+﻿
 namespace SocialMedia_App.Core.Application.ViewModels.Friendship
 {
 	public class FriendshipViewModel

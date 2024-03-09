@@ -132,7 +132,7 @@ namespace SocialMedia_App.Core.Application.Services
             return _mapper.Map<UserViewModel>(user);
         }
 
-        // para generar una contraseña
+        // para generar una contraseña de 8 caracteres
         public string GenerateSecurePassword(int length = 8)
         {
             const string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

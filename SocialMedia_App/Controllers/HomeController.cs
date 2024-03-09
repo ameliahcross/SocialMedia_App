@@ -8,12 +8,9 @@ using SocialMedia_App.Core.Application.ViewModels.Home;
 using SocialMedia_App.Core.Application.ViewModels.Post;
 using System.Net.Http;
 using System.Web;
-using SocialMedia_App.Core.Application.Services;
-using SocialMedia_App.Core.Domain.Entities;
 using AutoMapper;
-using Microsoft.Extensions.Hosting;
-using SocialMedia_App.Core.Application.ViewModels.Friendship;
 using SocialMedia_App.Core.Application.ViewModels.Comment;
+using Microsoft.AspNetCore.Authorization;
 
 
 namespace SocialMedia_App.Controllers

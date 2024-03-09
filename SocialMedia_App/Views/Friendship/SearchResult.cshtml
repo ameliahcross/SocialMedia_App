@@ -46,11 +46,11 @@
 }
 else if (Model.User != null)
 {
-    <div class="user-result">
-      
+    <div class="col-4 mx-auto mt-5">
         <table class="table table-primary table-striped mt-3">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Usuario</th>
                     <th>Nombre</th>
                     <th class="text-end"></th>
@@ -58,18 +58,37 @@ else if (Model.User != null)
             </thead>
             <tbody>
                     <tr>
-                    <td>@Model.User.UserName</td>
-                    <td>@Model.User.Name @Model.User.LastName</td>
+                    <td>@Model.User.ImageUrl</td>
+                    <td class="text-center">@Model.User.UserName</td>
+                    <td class="text-center">@Model.User.Name @Model.User.LastName</td>
                         <td class="text-end">
                         <form asp-controller="Friendship" asp-action="Create" method="post">
                             <input type="hidden" name="FriendId" value="@Model.User.Id" />
-                            <button type="submit" class="btn btn-success">Agregar amigo(a)</button>
+
+                            @if (ViewBag.AlreadyFriends != null && ViewBag.FoundYourself == null)
+                            {
+                                <button type="submit" class="btn btn-secondary" disabled>@ViewBag.AlreadyFriends</button>
+                            }
+                            @if (ViewBag.AlreadyFriends == null && ViewBag.FoundYourself == null)
+                            {
+                                <button type="submit" class="btn btn-success">Agregar amigo(a)</button>
+                            }
+                            @if (ViewBag.FoundYourself != null)
+                            {
+                                <a class="btn btn-info" asp-controller="Profile" asp-action="Index">
+                                    @ViewBag.FoundYourself
+                                </a>
+                            }
                         </form>
                         </td>
                     </tr>
             </tbody>
         </table>
-
+        <div class="col-sm-12 mt-3 col-sm-12 mt-3 d-flex justify-content-center">
+            <a class="btn btn-primary" asp-controller="Friendship" asp-action="AddFriend">
+                Volver atrás
+            </a>
+        </div>
     </div>
 }
 

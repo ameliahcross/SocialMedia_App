@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using SocialMedia_App.Core.Application.Interfaces.Repositories;
 using SocialMedia_App.Core.Application.Interfaces.Services;
 using SocialMedia_App.Core.Application.ViewModels.Post;
@@ -10,14 +9,13 @@ namespace SocialMedia_App.Core.Application.Services
 {
     public class PostService : GenericService<SavePostViewModel, PostViewModel, Post>, IPostService
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IFriendshipRepository _friendshipRepository;
         private readonly IPostRepository _postRepository;
         private readonly IMapper _mapper;
+
         public PostService(IPostRepository postRepository, IFriendshipRepository friendshipRepository,
-            IHttpContextAccessor httpContextAccessor, IMapper mapper) : base (postRepository, mapper)
+           IMapper mapper) : base (postRepository, mapper)
         {
-            _httpContextAccessor = httpContextAccessor;
             _friendshipRepository = friendshipRepository;
             _postRepository = postRepository;
             _mapper = mapper;
