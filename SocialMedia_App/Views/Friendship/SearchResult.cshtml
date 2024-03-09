@@ -46,7 +46,7 @@
 }
 else if (Model.User != null)
 {
-    <div class="col-4 mx-auto mt-5">
+    <div class="col-6 mx-auto mt-5">
         <table class="table table-primary table-striped mt-3">
             <thead>
                 <tr>
@@ -58,9 +58,9 @@ else if (Model.User != null)
             </thead>
             <tbody>
                     <tr>
-                    <td>@Model.User.ImageUrl</td>
-                    <td class="text-center">@Model.User.UserName</td>
-                    <td class="text-center">@Model.User.Name @Model.User.LastName</td>
+                    <td><img src="@Model.User.ImageUrl" class="rounded-circle" width="40" height="40"  alt="Imagen de perfil" /></td>
+                    <td class="text-center align-middle">@Model.User.UserName</td>
+                    <td class="text-center align-middle">@Model.User.Name @Model.User.LastName</td>
                         <td class="text-end">
                         <form asp-controller="Friendship" asp-action="Create" method="post">
                             <input type="hidden" name="FriendId" value="@Model.User.Id" />

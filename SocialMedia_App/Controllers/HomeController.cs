@@ -68,6 +68,19 @@ namespace SocialMedia_App.Controllers
             if (!ModelState.IsValid || !model.IsValid())
             {
                 ModelState.AddModelError("", "No puedes crear publicaciones en blanco");
+
+                var userVm = HttpContext.Session.Get<UserViewModel>("user");
+                var posts = await _postService.GetAllPostByUserIdWithIncludeAsync(userVm.Id);
+                var myPostsViewModels = _mapper.Map<List<PostViewModel>>(posts);
+
+                foreach (var postViewModel in myPostsViewModels)
+                {
+                    var postComments = await _commentService.GetAllByPostId(postViewModel.Id);
+                    postViewModel.Comments = _mapper.Map<List<CommentViewModel>>(postComments);
+                }
+
+                model.Posts = myPostsViewModels;
+
                 return View("Index", model);
             }
 
