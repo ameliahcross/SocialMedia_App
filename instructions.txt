@@ -1,0 +1,7 @@
+INSTRUCCIONES PARA EL ENVIO DE CORREO NECESARIO PARA ACTIVAR USUARIOS REGISTRADOS
+
+IR A:
+
+Presentation < WebApp < SocialMedia_App < appsettings.json
+
+En "MailSettings", sustituir los campos vacios por las credenciales de correo deseadas.
